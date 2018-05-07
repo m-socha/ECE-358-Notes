@@ -257,4 +257,42 @@
       \subsubsection{Security}
         Examples of security-related features a transport service can provide include encryption, enforcing authentication or ensuring data integrity.
 
+    \subsection{Transport Services Provided by the Internet}
+      The Internet makes two transport protocols available, namely TCP and UDP
+
+      \subsubsection{TCP}
+        TCP is a connection-oriented protocol, meaning that the client and server exchange transport-layer control info before application messages are exchanged. When the
+        application finishes sending messages, it must tear down this connection. TCP also provides reliable data transfer. Also, for the welfare of the Internet in general
+        rather than specific applications, TCP provides a congestion-control mechanism, which throttles sending processes when the network between the client and server
+        is congested. Flow control is also provided.
+
+        \subsubsection{Securing TCP}
+          Neither TCP or UDP provide any encyption. To remedy this issue, an enhancement for TCP, known as Secure Sockets Layer (SSL), can be used to provide process-to-process
+          security services, including encryption, data integrity and end-point authentication.
+
+      \subsubsection{UDP}
+        UDP is a lightweight transport protocol. Unlike TCP, UDP is not connection-oriented, and does not provide reliable data transfer. Also, UDP does not provide a
+        congestion-control mechanism.
+
+    \subsection{HTTP Overview}
+      HyperText Transfer Protocol (HTTP) is the Web's main application-layer protocol. HTTP can be used to load web pages, which consist of objects than can include HTML files,
+      image files, Java applets, etc.. Most Web pages consist of a base HTML file that references other objects. Each object is addressable by a Uniform Resource Locator (URL),
+      which includes a host name and a path name.
+
+      HTTP uses TCP as its underlying transport protocol. HTTP clients (e.g. Web browsers) are responsible for initiating a TCP connection with a server, after which the two hosts
+      can exchange messages through their socket interface. HTTP is considered to be a stateless protocol, meaning that HTTP servers are not required to maintain information about
+      past client requests.
+
+    \subsection{HTTP Connections}
+
+      \subsubsection{Non-Persistent Connections}
+        In non-persistent HTTP connections, at most one object is sent over each connection, after which the connection is closed and a new one must be established. These types of
+        connections have significant overhead, with TCP connection variables having to be stored on both the client and webserver, and each object suffering from a delivery delay
+        of 2 Round-Trip Times (RTTs).
+
+      \subsubsection{Persistent Connections}
+        Persistent HTTP connections allow for a multiple objects from the same host to be sent over a single connection. Therefore, it is possible to have as few as one RTT of
+        overhead for all objects on a server. This connection remains open until a configurable timeout interval, after which it is closed. The default mode of HTTP makes use
+        of persistent connections.
+
 \end{document}
