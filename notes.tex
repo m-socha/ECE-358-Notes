@@ -125,8 +125,8 @@
 
       End systems typically connect to the Internet through access Internet Service Providers (ISPs). Since competing ISPs exist, they must be
       connected to one another as well to effectively send packets to one another. These connections are implemented using Internet Exchange
-      Points (IXPs). Moreover, some content provider networks may setup their own networks to connect their data centers to the Internet,
-      often bypassing regional ISPs.  The resulting Internt network structure is quite complex, with its evolution having been driven by a
+      Points (IXPs). Moreover, some content providers may setup their own networks (content provider networks) to connect their data centers to the Internet,
+      often bypassing regional ISPs. The resulting Internt network structure is quite complex, with its evolution having been driven by a
       combination of business and politics.
 
     \subsection{Delay, Loss and Throughput}
@@ -294,5 +294,107 @@
         Persistent HTTP connections allow for a multiple objects from the same host to be sent over a single connection. Therefore, it is possible to have as few as one RTT of
         overhead for all objects on a server. This connection remains open until a configurable timeout interval, after which it is closed. The default mode of HTTP makes use
         of persistent connections.
+
+    \subsection{HTTP Messages}
+
+      \subsubsection{Requests}
+        Common request types:
+        \begin{itemize}
+          \item \textbf{GET:} Used to request an object, with the requested object identified in the URL (most common type of request)
+          \item \textbf{POST:} Used to submit a request with an entity body (e.g. to submit data from a filled out form)
+          \item \textbf{HEAD:} Similar to get, but leaves out the requested object
+          \item \textbf{PUT:} Used to upload an object to a specific path
+          \item \textbf{DELETE:} Used to delete an object on a specific path
+        \end{itemize}
+
+      \subsubsection{Responses}
+        Common response codes:
+        \begin{itemize}
+          \item \textbf{200 OK:} Request succeeded, requested object later in this message.
+          \item \textbf{301 Moved Permanently:} Resource has been moved, new URL in Location: header of this message.
+          \item \textbf{400 Bad Request:} Request message not understood by server.
+          \item \textbf{404 Not Found:} Requested object not found on server.
+          \item \textbf{505 HTTP Version Not Supported:} HTTP protocol version not supported by server.
+        \end{itemize}
+
+    \subsection{Cookies}
+      Although HTTP servers are stateless, it is often useful to be able to identify users, which can be done using cookies. Cookies technology has 4 components, namely:
+      \begin{enumerate}
+        \item Cookie header line in HTTP response message
+        \item Cookie header line in HTTP request message
+        \item Cookie stored on user end system
+        \item Backend database on website index by cookies
+      \end{enumerate}
+      The key idea behind cookies it that they can be assigned to users when they first visit a website, after which the user can be identified because they include the
+      cookie in their HTTP requests. Sample uses of cookies include authorization and saving user state and settings.
+
+    \subsection{Web Caching}
+      The goal of web caches (also known as proxy servers) is to statisfy a client request without involving the origin server. Instead, a client sends messages to a proxy
+      that either already cached the results, in which case it responds to the request, or does not have the result, in which it sends a request to the origin server. Note
+      that the proxy is acting as both a server and a client.
+
+      The main benefits of web caching are reducing response time (effective when client has high-speed connection to cache) and by reducing traffic. Caches are typically
+      installed by an ISP (e.g. a university might install a cache and configure all clients to point to it).
+
+    \subsection{Conditional GET}
+      A conditional GET can be used by web caches to ensure they are not returning state data. Conditional GETs use GET requests but include an If-modified-since: header.
+
+    \subsection{DNS: Domain Name System}
+      DNS serves to provide a mapping between host names and their IP addresses. DNS implements this through a distributed database implemented in a hierarchy of servers
+      known as name servers. DNS is used by the application layer, where hosts communicate with a DNS server to resolve names, and can then proceed with the request.
+
+      DNS services include:
+      \begin{itemize}
+        \item Hostname to IP translation
+        \item Host aliasing
+        \item Mail server aliasing
+        \item Load distribution (i.e. cycling through replicated web servers to avoid overloading a single one)
+      \end{itemize}
+
+      Although a single centralized DNS may sound like an appealing idea, it would face many problems, including:
+      \begin{itemize}
+        \item Single point of failure - DNS server going down would make the Internet unusable
+        \item Huge traffic volume to a single server
+        \item Server would be physically distant from most users
+        \item Maintenance concers - the DNS database would be huge and would require very frequent updates
+      \end{itemize}
+
+    \subsubsection{Server Classes}
+      \begin{itemize}
+        \item \textbf{Root name servers} are contacted by local name server if the name cannot be resolved. Root name servers may contact servers lower on the hierarchy in
+        resolving the name.
+        \item \textbf{Top-level domain (TLD) servers} are responsible for top-level domains such as com, org, net, and country top-level domains.
+        \item \textbf{Authoritative DNS Servers} are an organization's own DNS servers, providing authoritative hostname to IP mappings for their named hosts. These servers
+        can be maintained by an organization itself or by a service provider.
+        \item \textbf{Local DNS Name Servers} (also known as default name servers) serve as local proxies to DNS requests provided by an ISP. Local DNS Name Servers store
+        a cache of name-to-address translation pairs, and in the case of a cache miss, are able to forward a request into the DNS hierarchy. Once forwarded into the DNS hierarchy,
+        querying can be iterative (each server returns the next server to query to the local DNS server), or recursive (The root DNS server initiates a series of calls down the
+        server hierarchy and ultimately returns the resolved name).
+      \end{itemize}
+
+    \subsubsection{DNS Records}
+      DNS servers store resource records (RRs), including RRs that map hostnames to IPs. An RR contains the following fields: (Name, Value, Tpe, TTL (time-to-live)).
+      The record types are as follows:
+      \begin{itemize}
+        \item \textbf{Type=A} Name is hostname and Value is IP address.
+        \item \textbf{Type=NS} Name is domain and Value is host-name of authoritative DNS server that can option IP address for hosts in the domain.
+        \item \textbf{Type=CNAME} Name is alias and Value is the corresponding canonical hostname.
+        \item \textbf{Type=MX} Name is alias and Value is the corresponding mail server.
+      \end{itemize}
+
+    \subsubsection{DNS Messages}
+      Query and reply are the only kinds of DNS messages. The parts of a message are described below:
+      \begin{itemize}
+        \item \textbf{Header:} Contains message identifier, which is copied from a query into its reply. The header also includes a number of flags, including one for
+        query or reply, whether recursion is desired, whether recursion is available, and whether the reply is authoritative.
+        \item \textbf{Questions:} Includes name and type field for a query.
+        \item \textbf{Answers:} Contains records that were queried for.
+        \item \textbf{Authority:} Contains records of other authoritative servers.
+        \item \textbf{Additional:} Additional info (e.g. for a Type MX reply, this contains the Type A record for the canonical hostname of the mail server).
+      \end{itemize}
+
+    \subsubsection{Inserting Records into DNS Database}
+      Domain names can be registered at commerical entities called registrars. Once the domain is confirmed to be available, a Type A DNS record and a Type MX DNS
+      record are inserted.
 
 \end{document}
