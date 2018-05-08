@@ -62,7 +62,7 @@
       (often in data centers). Communication between devices on a network can be wired or wireless.
 
       End systems can connect to an edge router through various ways, including using residential access nets, institutional
-      access networks and mobile access networks. Important considerations in such connections include a connection's bandwith,
+      access networks and mobile access networks. Important considerations in such connections include a connection's bandwidth,
       latency, and whether it is shared/dedicated.
 
       Network connections can be made through a digital subscriber line (DSL), which allows for the transmission of data over
@@ -87,12 +87,12 @@
         \begin{itemize}
           \item Taking an application message
           \item Breaking the message into chunks (packets) or length $L$ bits
-          \item Transmiting packets across a network at transmission rate $R$
+          \item Transmitting packets across a network at transmission rate $R$
         \end{itemize}
       $packet transmission delay = \frac{L}{R}$
 
       The medium facilitating transmission between a transmitter and receiver is called a physical link. Physical links may be guided
-      (i.e. solid cables, such as copper, fiber or coax), or unguided (i.e. signals may propogate freely, such as through radio).
+      (i.e. solid cables, such as copper, fiber or coax), or unguided (i.e. signals may propagate freely, such as through radio).
 
       Coaxial cables are formed from two concentric copper conductors. Coaxial cables bidirectional and they are are broadband, so they
       can support communication across multiple channels.
@@ -100,20 +100,20 @@
       Fiber optic cables feature a glass fiber carrying light pulses, where each pulse represents one bit. Fiber optics cables support
       high-speed point-to-point transmission, and have a low error rate.
 
-      Radio is a wireless bidirectional signal carried in the electromagnetic spectrum. The environment of propogation may cause signal
+      Radio is a wireless bidirectional signal carried in the electromagnetic spectrum. The environment of propagation may cause signal
       reflection, obstruction (by objects in path) and interference. Radio link network types include terrestrial microwaves, LAN, wide-area
       and satellite.
 
     \subsection{Network Core}
       Through store-and-forward packet-switching, an entire packet must arrive at a router before it can be transmitted on the next link. The
-      resulting end-end delay is $\frac{2L}{R}$ (plus any propogation delay).
+      resulting end-end delay is $\frac{2L}{R}$ (plus any propagation delay).
 
       Should the arrival rate exceed a link's transmission rate, the resulting packets will queue up. If the memory in which the packets are
       stored fills up, packets can be dropped.
 
       Routing determines the source-destination route taken by packets, while forwarding moves packets to the appropriate output router.
 
-      Circuit switching is an alternative design for a network core. Instead of queueing up packets along shared lines, end-end resources
+      Circuit switching is an alternative design for a network core. Instead of queuing up packets along shared lines, end-end resources
       between a transmission's source and destination are reserved (i.e. circuitry used only for that specific transmission). Such an approach
       is commonly used in telephone networks. Circuit switching can be implemented using FDM (frequency-division multiplexing) or TDM
       (time-division multiplexing).
@@ -126,7 +126,7 @@
       End systems typically connect to the Internet through access Internet Service Providers (ISPs). Since competing ISPs exist, they must be
       connected to one another as well to effectively send packets to one another. These connections are implemented using Internet Exchange
       Points (IXPs). Moreover, some content providers may setup their own networks (content provider networks) to connect their data centers to the Internet,
-      often bypassing regional ISPs. The resulting Internt network structure is quite complex, with its evolution having been driven by a
+      often bypassing regional ISPs. The resulting Internet network structure is quite complex, with its evolution having been driven by a
       combination of business and politics.
 
     \subsection{Delay, Loss and Throughput}
@@ -135,17 +135,17 @@
       
         \paragraph{Nodal processing} includes the time to check bit errors and determine the output link. This time is usually 10-1000us.
 
-        \paragraph{Queueing delay} is the time spent waiting at the output link for transmission.
+        \paragraph{Queuing delay} is the time spent waiting at the output link for transmission.
 
         \paragraph{Transmission delay} $\frac{L}{R}$
 
-        \paragraph{Propogation delay} $d/s$, where $d$ is the length of the physical link and $s$ is the propogation speed.
+        \paragraph{Propagation delay} $d/s$, where $d$ is the length of the physical link and $s$ is the propagation speed.
 
-      \subsubsection{Queueing Delay}
-        Let $R$ be the link bandwidth, $L$ be the packet length, and $a$ be the average package arrival rate. The average queueing delay
-        can be measured using $\frac{La}{R}$. If this value is close to 0, the queueing delay is small. Once the value exceeds 1, more
-        packets are arriving than can be serviced, and the queueing delay may be infinite. Should packets be dropped, they may be
-        retransmitted by a previous node in the network, but this is not guaranteed.
+      \subsubsection{Queuing Delay}
+        Let $R$ be the link bandwidth, $L$ be the packet length, and $a$ be the average package arrival rate. The average queuing delay
+        can be measured using $\frac{La}{R}$. If this value is close to 0, the queuing delay is small. Once the value exceeds 1, more
+        packets are arriving than can be serviced, and the queuing delay may be infinite. Should packets be dropped, they may be
+        re-transmitted by a previous node in the network, but this is not guaranteed.
 
       \subsubsection{Measuring Delay and Loss}
         The traceroute program can be used to measure the delay and loss on a network. It works by sending some test packets to a router which
@@ -252,7 +252,7 @@
 
       \subsubsection{Timing}
         Some applications (e.g. real-time chat, multiplayer games) may not function well if the time to communicate between source and destination applications exceeds a certain
-        amoount of time.
+        amount of time.
 
       \subsubsection{Security}
         Examples of security-related features a transport service can provide include encryption, enforcing authentication or ensuring data integrity.
@@ -267,7 +267,7 @@
         is congested. Flow control is also provided.
 
         \subsubsection{Securing TCP}
-          Neither TCP or UDP provide any encyption. To remedy this issue, an enhancement for TCP, known as Secure Sockets Layer (SSL), can be used to provide process-to-process
+          Neither TCP or UDP provide any encryption. To remedy this issue, an enhancement for TCP, known as Secure Sockets Layer (SSL), can be used to provide process-to-process
           security services, including encryption, data integrity and end-point authentication.
 
       \subsubsection{UDP}
@@ -329,7 +329,7 @@
       cookie in their HTTP requests. Sample uses of cookies include authorization and saving user state and settings.
 
     \subsection{Web Caching}
-      The goal of web caches (also known as proxy servers) is to statisfy a client request without involving the origin server. Instead, a client sends messages to a proxy
+      The goal of web caches (also known as proxy servers) is to satisfy a client request without involving the origin server. Instead, a client sends messages to a proxy
       that either already cached the results, in which case it responds to the request, or does not have the result, in which it sends a request to the origin server. Note
       that the proxy is acting as both a server and a client.
 
@@ -356,7 +356,7 @@
         \item Single point of failure - DNS server going down would make the Internet unusable
         \item Huge traffic volume to a single server
         \item Server would be physically distant from most users
-        \item Maintenance concers - the DNS database would be huge and would require very frequent updates
+        \item Maintenance concerns - the DNS database would be huge and would require very frequent updates
       \end{itemize}
 
     \subsubsection{Server Classes}
@@ -394,7 +394,19 @@
       \end{itemize}
 
     \subsubsection{Inserting Records into DNS Database}
-      Domain names can be registered at commerical entities called registrars. Once the domain is confirmed to be available, a Type A DNS record and a Type MX DNS
+      Domain names can be registered at commercial entities called registrars. Once the domain is confirmed to be available, a Type A DNS record and a Type MX DNS
       record are inserted.
+
+    \subsubsection{DNS Vulnerabilities}
+      DDoS attacks against root servers are generally ineffective, since root servers have packet filters, and even if they do go down, most local DNS servers store the IPs of
+      TLD servers.
+
+      A potentially more dangerous line of attack would be to DDoS TLD servers. However, even if TLD servers go down, the impact of the outage would be mitigated
+      by caching in local DNS servers.
+
+      Other potential lines of attack include man-in-the-middle attacks, in which DNS queries from hosts are intercepted and bogus replies returned,
+      and DNS poisoning, where bogus replies are sent to a DNS server to fill its cache with incorrect records. DNS infrastructure can also be used to launch a DDoS attack by sending
+      DNS queries with a spoofed source of the attack target to many authoritative servers, with to queries designed so that their response is larger than the original query (i.e. the
+      attacker's DoS efforts get amplified).
 
 \end{document}
