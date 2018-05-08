@@ -61,73 +61,88 @@
       Edge devices provide some sort of entry point to a network. Examples include computers, mobile devices, and servers
       (often in data centers). Communication between devices on a network can be wired or wireless.
 
-      End systems can connect to an edge router through various ways, including using residential access nets, institutional
-      access networks and mobile access networks. Important considerations in such connections include a connection's bandwidth,
-      latency, and whether it is shared/dedicated.
+      \subsubsection{Access Networks and Physical Media}
+        End systems can connect to an edge router through various ways, including using residential access nets, institutional
+        access networks and mobile access networks. Important considerations in such connections include a connection's bandwidth,
+        latency, and whether it is shared/dedicated.
 
-      Network connections can be made through a digital subscriber line (DSL), which allows for the transmission of data over
-      telephone lines. A digital subscriber line access multiplexer (DSLAM) can be used to connect multiple DSL lines to a digital
-      communications channel. Downstream transmission rates (typically < 1 Mbps) tend to be much faster than upstream transmission
-      rates (typically < 10 Mbps). Optimal transmission rates are rarely reached in practice. Each line connects directly to a
-      central office.
+      \subsubsection{Digital Subscriber Line (DSL)}
+        Network connections can be made through a digital subscriber line (DSL), which allows for the transmission of data over
+        telephone lines. A digital subscriber line access multiplexer (DSLAM) can be used to connect multiple DSL lines to a digital
+        communications channel. Downstream transmission rates (typically < 1 Mbps) tend to be much faster than upstream transmission
+        rates (typically < 10 Mbps). Optimal transmission rates are rarely reached in practice. Each line connects directly to a
+        central office.
 
-      Network connections can also be made through a cable network, which uses the same infrastructure as cable television.
-      Differing frequencies are used to distinguish between different channels of communication. Hybrid Coaxial Cables (HFCs) are
-      used to form the connection, which tend to have a downstream transmission around 30 Mbps and an upstream transmission around
-      2 Mbps. These connections attach to an ISP router, and multiple parties typically share access to a cable headend.
+      \subsubsection{Cable Network}
+        Network connections can also be made through a cable network, which uses the same infrastructure as cable television.
+        Differing frequencies are used to distinguish between different channels of communication. Hybrid Coaxial Cables (HFCs) are
+        used to form the connection, which tend to have a downstream transmission around 30 Mbps and an upstream transmission around
+        2 Mbps. These connections attach to an ISP router, and multiple parties typically share access to a cable headend.
 
-      Most enterprise access networks use Ethernet connections, which tend to be much faster (available speeds include 10 Mbps, 100 Mbps,
-      1 Gbps, 10 Gbps). Nowadays, most end systems connect to an Ethernet switch.
+      \subsubsection{Ethernet}
+        Most enterprise access networks use Ethernet connections, which tend to be much faster (available speeds include 10 Mbps, 100 Mbps,
+        1 Gbps, 10 Gbps). Nowadays, most end systems connect to an Ethernet switch.
 
-      Wireless access networks can connect end systems to routers without a cable connection. Wireless LANs (i.e. Wi-Fi) provide network
-      access for a fairly small range, while wide-area access networks are provided by cellular operators and have a range of 10s of
-      kilometers. Wireless LANs tend to have higher bandwidths than wide-area access networks.
+      \subsubsection{Wireless Access Networks}
+        Wireless access networks can connect end systems to routers without a cable connection. Wireless LANs (i.e. Wi-Fi) provide network
+        access for a fairly small range, while wide-area access networks are provided by cellular operators and have a range of 10s of
+        kilometers. Wireless LANs tend to have higher bandwidths than wide-area access networks.
 
-      A host sending function is responsible for:
-        \begin{itemize}
-          \item Taking an application message
-          \item Breaking the message into chunks (packets) or length $L$ bits
-          \item Transmitting packets across a network at transmission rate $R$
-        \end{itemize}
+      \subsubsection{Data Packet Transmission}
+        A host sending function is responsible for:
+          \begin{itemize}
+            \item Taking an application message
+            \item Breaking the message into chunks (packets) or length $L$ bits
+            \item Transmitting packets across a network at transmission rate $R$
+          \end{itemize}
       $packet transmission delay = \frac{L}{R}$
 
-      The medium facilitating transmission between a transmitter and receiver is called a physical link. Physical links may be guided
-      (i.e. solid cables, such as copper, fiber or coax), or unguided (i.e. signals may propagate freely, such as through radio).
+      \subsubsection{Physical Media}
+        The medium facilitating transmission between a transmitter and receiver is called a physical link. Physical links may be guided
+        (i.e. solid cables, such as copper, fiber or coax), or unguided (i.e. signals may propagate freely, such as through radio).
 
-      Coaxial cables are formed from two concentric copper conductors. Coaxial cables bidirectional and they are are broadband, so they
-      can support communication across multiple channels.
+      \subsubsection{Coaxial Cable}
+        Coaxial cables are formed from two concentric copper conductors. Coaxial cables bidirectional and they are are broadband, so they
+        can support communication across multiple channels.
 
-      Fiber optic cables feature a glass fiber carrying light pulses, where each pulse represents one bit. Fiber optics cables support
-      high-speed point-to-point transmission, and have a low error rate.
+      \subsubsection{Fiber Optic Cable}
+        Fiber optic cables feature a glass fiber carrying light pulses, where each pulse represents one bit. Fiber optics cables support
+        high-speed point-to-point transmission, and have a low error rate.
 
-      Radio is a wireless bidirectional signal carried in the electromagnetic spectrum. The environment of propagation may cause signal
-      reflection, obstruction (by objects in path) and interference. Radio link network types include terrestrial microwaves, LAN, wide-area
-      and satellite.
+      \subsubsection{Radio}
+        Radio is a wireless bidirectional signal carried in the electromagnetic spectrum. The environment of propagation may cause signal
+        reflection, obstruction (by objects in path) and interference. Radio link network types include terrestrial microwaves, LAN, wide-area
+        and satellite.
 
     \subsection{Network Core}
-      Through store-and-forward packet-switching, an entire packet must arrive at a router before it can be transmitted on the next link. The
-      resulting end-end delay is $\frac{2L}{R}$ (plus any propagation delay).
+      \subsubsection{Packet Switching}
+        Through store-and-forward packet-switching, an entire packet must arrive at a router before it can be transmitted on the next link. The
+        resulting end-end delay is $\frac{2L}{R}$ (plus any propagation delay).
 
-      Should the arrival rate exceed a link's transmission rate, the resulting packets will queue up. If the memory in which the packets are
-      stored fills up, packets can be dropped.
+        Should the arrival rate exceed a link's transmission rate, the resulting packets will queue up. If the memory in which the packets are
+        stored fills up, packets can be dropped.
 
-      Routing determines the source-destination route taken by packets, while forwarding moves packets to the appropriate output router.
+      \subsubsection{Routing vs Forwarding}
+        Routing determines the source-destination route taken by packets, while forwarding moves packets to the appropriate output router.
 
-      Circuit switching is an alternative design for a network core. Instead of queuing up packets along shared lines, end-end resources
-      between a transmission's source and destination are reserved (i.e. circuitry used only for that specific transmission). Such an approach
-      is commonly used in telephone networks. Circuit switching can be implemented using FDM (frequency-division multiplexing) or TDM
-      (time-division multiplexing).
+      \subsubsection{Circuit Switching}
+        Circuit switching is an alternative design for a network core. Instead of queuing up packets along shared lines, end-end resources
+        between a transmission's source and destination are reserved (i.e. circuitry used only for that specific transmission). Such an approach
+        is commonly used in telephone networks. Circuit switching can be implemented using FDM (frequency-division multiplexing) or TDM
+        (time-division multiplexing).
 
-      Packet switching tends to be preferable to circuit switching for bursty data. Moreover, packet switching is supports resource sharing,
-      and the setup for calls is simpler than that of circuit switching. However, packet switching may have excessive congestion, resulting
-      in packet delay and loss. Providing circuit-like behaviour (i.e. guaranteed bandwidth) to packet switching networks remains an unsolved
-      problem.
+      \subsubsection{Packet Switching vs Circuit Switching}
+        Packet switching tends to be preferable to circuit switching for bursty data. Moreover, packet switching is supports resource sharing,
+        and the setup for calls is simpler than that of circuit switching. However, packet switching may have excessive congestion, resulting
+        in packet delay and loss. Providing circuit-like behaviour (i.e. guaranteed bandwidth) to packet switching networks remains an unsolved
+        problem.
 
-      End systems typically connect to the Internet through access Internet Service Providers (ISPs). Since competing ISPs exist, they must be
-      connected to one another as well to effectively send packets to one another. These connections are implemented using Internet Exchange
-      Points (IXPs). Moreover, some content providers may setup their own networks (content provider networks) to connect their data centers to the Internet,
-      often bypassing regional ISPs. The resulting Internet network structure is quite complex, with its evolution having been driven by a
-      combination of business and politics.
+      \subsubsection{Internet Structure}
+        End systems typically connect to the Internet through access Internet Service Providers (ISPs). Since competing ISPs exist, they must be
+        connected to one another as well to effectively send packets to one another. These connections are implemented using Internet Exchange
+        Points (IXPs). Moreover, some content providers may setup their own networks (content provider networks) to connect their data centers to the Internet,
+        often bypassing regional ISPs. The resulting Internet network structure is quite complex, with its evolution having been driven by a
+        combination of business and politics.
 
     \subsection{Delay, Loss and Throughput}
       \subsubsection{Sources of Packet Delay}
