@@ -425,4 +425,50 @@
       DNS queries with a spoofed source of the attack target to many authoritative servers, with to queries designed so that their response is larger than the original query (i.e. the
       attacker's DoS efforts get amplified).
 
+  \section{Transport Layer}
+    The transport layer allows for logical communication between applications running on different hosts. Logical communication means that the applications involved can interact with one
+    another as though they were directly connected. Transport-layer protocols are implemented in end systems, with the sender side breaking up application messages into transport-layer
+    packets (or segments), and the receiving side reassembling them into messages send to the application layer.
+
+    \subsection{Transport vs Network Layer}
+      The transport layer is just above the network layer. The network layer provides logical communication between hosts, while the transport layer provides logical communication between
+      processes on these hosts.
+
+    \subsection{Multiplexing and Demultiplexing}
+      Multiplexing and demultiplexing involves extending the network host-to-host delivery service to a transport-layer process-to-process delivery service.
+
+      \subsubsection{Demultiplexing}
+        Demultiplexing involves directing incoming transport segments to a particular socket. Each segment received by the host is packaged in an IP datagram, which contains header
+        information that includes the destination and source port numbers. IP addresses and port numbers are used to direct the segment to the appropriate socket.
+
+        In connectionless demultiplexing, only the destination port number is involved in determining which socket should receive a segment; segments with the same dest port but
+        different source IP addresses are sent to the same socket.
+
+        In connection-oriented demultiplexing, the source and dest IP address and port are all considered, with the received using all four values to direct the segment to the appropriate
+
+      \subsubsection{Multiplexing}
+        Multiplexing involves gathering data chunks from a host's sockets, encapsulating each chunk with header information that is later used in demultiplexing, and passing the segments to
+        the network layer.
+
+    \subsection{Connectionless Transport: UDP}
+      UDP is a ``bare bones'' transport protocol that does just about as little as the transport layer can possibly do. The only major functionality added on top of IP is
+      multiplexing/demultiplexing and some basic error checking. No ``handshake'' occurs between the sending and receiving processes before a segments are exchanged, making UDP a
+      connectionless transport protocol.
+
+      A few potential benefits of UDP include:
+      \begin{itemize}
+        \item No connection establishment, lowering overall delay. DNS makes use of this property.
+        \item Simpler to implement.
+        \item Small header size.
+        \item No congestion control.
+      \end{itemize}
+
+      \subsubsection{UDP Segment Header}
+        A UDP segment header consists of source port, dest port, segment length, and checksum fields. Each of these fields consists of 2 bytes, forming an 8 byte header.
+
+      \subsubsection{UDP Checksum}
+        The goal of a UDP checksum is to detect errors in the transmitted segment. The checksum is formed by treating the UDP segment as a sequence of 2 byte words, summing
+        them up (with overflow bits wrapping around and being added to the front), and taking the 1s complement. The receiver re-computes the checksum, and if it differs from
+        the sent one, it can detect that an error occurred.
+
 \end{document}
