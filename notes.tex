@@ -471,4 +471,49 @@
         them up (with overflow bits wrapping around and being added to the front), and taking the 1s complement. The receiver re-computes the checksum, and if it differs from
         the sent one, it can detect that an error occurred.
 
+    \subsection{Principles of Reliable Data Transfer}
+      Reliable data transfer (rdt) is an extremely important problem encountered in networking not only at the transport layer, but also at the link layer and application layer. Reliable
+      data transfer is provided by a reliable data transfer protocol, and must work even if the layers below it are unreliable. This section covers unidirectional rdt; bidirectional rdt
+      is conceptually similar but more tedious to explain.
+
+      \subsubsection{RDT over Perfectly Reliable Channel}
+        This is a trivial case where no error checking is necessary, since errors do not occur in the first place.
+
+      \subsubsection{RDT over Channel with Bit Errors}
+        Three new mechanisms can be added to help overcome bit errors:
+        \begin{enumerate}
+          \item \textbf{Error detection}, which can be done through computing a checksum.
+          \item \textbf{Receiver feedback}. Acknowledgements (ACKs) can be sent to the sender to notify them a packet was received ok, and negative acknowledgments (NAKs) can be sent to the
+          sender to notify them of an error.
+          \item \textbf{Retransmission}. Upon receiving a NAK, the sender can re-send the packet.
+        \end{enumerate}
+
+        This described protocol is known an example of a stop-and-wait protocol, since a sender will not send a new message until it receives acknowledgments that the receiver has
+        successfully received the previous one.
+
+        A major limitation of the system above is that it assumes the ACK and NAK signals are not corrupted. This can be solved by a sender re-transmitting a packet if a corrupted ACK or
+        NAK is received. A sequence number must also be added so that duplicates can be discarded by the receiver.
+
+        Moreover, if sequence numbers are used, NAKs do not need to be sent, since messages that were not acknowledged successfully are the ones without an ACK corresponding to their
+        sequence number.
+
+      \subsubsection{RDT over Channel with Errors and Loss}
+        The possibility of packet loss over a channel adds to problems of packet loss detection and handling. This can be addressed by the sender using a countdown timer mechanism for each
+        packet, which will trigger the packet to be re-sent if an ACK signal is not received on time. Since it is possible that a packet is not lost by merely delayed, this opens up the
+        possibility of duplicate packets being sent, but this is already handled through packet sequence numbers.
+
+      \subsubsection{Pipelined RDT Protocols}
+        Although the protocol described above correctly handles packet error and loss, it has incredibly poor performance due to its stop-and-wait behaviour. Pipelined RDT protocols can
+        be applied to overcome this stop-and-wait limitation by allowing multiple ``in-flight'', yet to be acknowledged packets. As a general rule, these protocols require that a larger
+        range of sequence numbers be used, and that buffering be supported at the sender or receiver.
+
+        \paragraph{Go Back N (GBN)} protocols allow for a sender to have up to $N$ unacknowledged packets in transport at a given time. The receiver sends cumulative acknowledgments,
+        meaning that packets are only acknowledged if they arrive in order. Should a sender timer for receiving an ACK for a packet expire, the next $N$ packets will be retransmitted.
+        GBN is often referred to as a sliding window protocol, with $N$ referred to as the window size.
+
+        \paragraph{Selective Repeat} protocols differ from GBN protocols in that they allow the receiver to acknowledge received packets individually. Like in GBN, a window size of $N$
+        is used to limit the number of unacknowledged packets sent. However, unlike in GBN, the sender may have already received AKCs for some of the packets in this window, since the
+        receiver acknowledges received packets regardless of whether they are in order. Out-of-order packets are buffered in the receiver until the preceding packets are received, after
+        which they can be delivered to the upper layer. A timeout mechanism is also used by the sender for every packet.
+
 \end{document}
