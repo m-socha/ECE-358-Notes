@@ -516,4 +516,82 @@
         receiver acknowledges received packets regardless of whether they are in order. Out-of-order packets are buffered in the receiver until the preceding packets are received, after
         which they can be delivered to the upper layer. A timeout mechanism is also used by the sender for every packet.
 
+    \subsection{Connection-Oriented Transport: TCP}
+
+      \subsubsection{Overview}
+        TCP is a connection-oriented transport protocol because before a sender and receiver can exchange information, some sort of ``handshake'' between them must first occur. The TCP
+        protocol runs only on the end systems, and its state is not stored in the intermediary network elements. TCP supports full duplex (i.e. bi-directional) point-to-point
+        (i.e. one sender, one receiver) transport.
+
+      \subsubsection{Segment Structure}
+        When TCP messages are sent, they are often broken up into chunks of the maximum segment size (MSS), or potentially into smaller chunks for interactive applications. The header
+        of a TCP segment includes:
+        \begin{itemize}
+          \item Source and dest port numbers
+          \item Sequence number and acknowledgment number, which are used in implementing a reliable data transfer service
+          \item Header length, which specifies length of TCP header in words (length can vary due to options field)
+          \item Flag fields (ACK bit for acknowledgments, RST, SYN and FIN bits for connection setup and teardown, PSH bit indicating receiver should push data to upper layer immediately,  
+            and URG used to indicate whether there is urgent data
+          \item Receive window, which is used for flow control
+          \item Checksum field, as in UDP
+          \item Urgent data pointing indicating the last word of urgent data
+        \end{itemize}
+
+        The sequence number is the byte-stream number of the first byte in a segment. The acknowledgment number is the number of the next byte expected from the sender. TCP provides
+        cumulative acknowledgments with respect to the bytes in a stream, since it only acknowledges bytes up to the first missing one. Upon receiving an out-of-order segment, the 
+        TCP protocol allows for either discarding the segment (rarely used in practice) or buffering it (more common).
+
+      \subsubsection{Timing Estimation}
+        TCP makes use of a timing mechanism to recover from potentially lost segments. If the timeout value is too short, many unnecessary retransmissions are likely, while if it is
+        too long, the reaction to segment loss will be too slow.
+
+        Estimating the RTT can help in determining a good timeout value. Since RTT can fluctuate significantly for specific samples, it is typically estimated with a moving average of
+        previous RTT values:
+        $$RTT_{Estimated} = (1 - \alpha) \cdot RTT_{Estimated} + \alpha \cdot RTT_{Sample}$$
+        A typical value for $\alpha$ is 0.125.
+
+        The level of variability in the RTT can be measured as follows:
+        $$Dev_{RTT} = (1 - \beta) \cdot Dev_{RTT} + \beta \cdot |RTT_{Sample} - RTT_{Estimated}|$$
+        A typical value for $\beta$ is 0.25.
+
+        The TCP retransmission timeout interval is defined as:
+        $$TimeoutInterval = RTT_{Estimated} + 4 \cdot Dev_{RTT}$$
+
+      \subsubsection{Reliable Data Transfer}
+        TCP provides rdt on top of IP's unreliable service. Some properties of TCP's rdt mechanism include pipelined segments, cumulative ACKs, and a single retransmission timer.
+        Retransmissions are triggered by timeout events and duplicate ACKs.
+
+        The following sender events can take place:
+        \begin{itemize}
+          \item \textbf{Receiving data from the application layer.} In this case, a segment is created with the appropriate sequence number. Also, if the sender's single timer is not
+            already running for some other segment, the timer is started.
+          \item \textbf{Timeouts}, which result in a retransmission of the segment that caused the timeout, as well as a restart of the timer.
+          \item \textbf{Arrival of ACK}, which updates the segments known be the ACKed (using cumulative ACK logic), and if there are no unACKed segments remaining, restarts the timer.
+        \end{itemize}
+
+        The following receiver events can take place:
+        \begin{itemize}
+          \item \textbf{Arrival of in-order segment.} If all data up to the expected sequence number is already ACKed, and the receiver waits 500ms for the next segment. If it does not
+            arrive, then an ACK is sent. If there is another segment with an ACK pending, a single cumulative ACK is immediately sent.
+          \item \textbf{Arrival of out of order segment with higher than expected sequence number.} A duplicate ACK is immediately sent, indicating the sequence number of the expected byte.
+          \item \textbf{Arrival of segment that partially or completely fills in lower end of gap.} An ACK is immediately sent for the segment.
+        \end{itemize}
+
+        Duplicate ACKs are ACKs that reacknowledge a segment for which a sender has received a previous ACK. TCP does not use NAK signals, so if a segment arrives out of order, an ACK signal
+        is re-sent for the last in-order byte of data received. Should three duplicate ACKs be received, the sender can re-transmit the next segment even if the timer has not yet expired,
+        which is known as fast retransmit.
+
+      \subsubsection{Flow Control}
+        TCP provides a flow control service to prevent the sender from overflowing the receiver's buffer. The available buffer size is exchanged though the receive window variable, and since
+        TCP is full duplex, this information is sent by both the sender and the receiver.
+
+      \subsubsection{Connection Management}
+        A two-way handshake involves a host sending a connection request to another host, which in turn replies with a message. However, two-way handshakes can lead to deadlocks or half-open
+        clients, so TCP makes use of a three-way handshake. In a three-way handshake, a host sets the SYN bit to 1 and sets an initial sequence number (isn). The receiver replies with a
+        SYN bit of 1, an acknowledgment of the client isn + 1, and ACK bit of 1, and its own initial sequence number. This part of establishing a connection is known as the SYNACK segment.
+        One the original sender receives this message it replies with a sequence number of the server isn + 1, and sets the ACK bit to 1.
+
+        Any two hosts in a connection can close the connection, which involves sending a TCP segment with a FIN bit of 1. The receiver of that segment responds with an ACK bit of 1. The
+        original sender then replies with a message to acknowledge the connection shutdown, after which the connection is closed and the resources for that connection can be deallocated.
+
 \end{document}
