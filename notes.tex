@@ -483,12 +483,12 @@
         Three new mechanisms can be added to help overcome bit errors:
         \begin{enumerate}
           \item \textbf{Error detection}, which can be done through computing a checksum.
-          \item \textbf{Receiver feedback}. Acknowledgements (ACKs) can be sent to the sender to notify them a packet was received ok, and negative acknowledgments (NAKs) can be sent to the
+          \item \textbf{Receiver feedback}. Acknowledgments (ACKs) can be sent to the sender to notify them a packet was received ok, and negative acknowledgments (NAKs) can be sent to the
           sender to notify them of an error.
           \item \textbf{Retransmission}. Upon receiving a NAK, the sender can re-send the packet.
         \end{enumerate}
 
-        This described protocol is known an example of a stop-and-wait protocol, since a sender will not send a new message until it receives acknowledgments that the receiver has
+        This described protocol is known an example of a stop-and-wait protocol, since a sender will not send a new message until it receives acknowledgment that the receiver has
         successfully received the previous one.
 
         A major limitation of the system above is that it assumes the ACK and NAK signals are not corrupted. This can be solved by a sender re-transmitting a packet if a corrupted ACK or
