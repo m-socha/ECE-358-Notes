@@ -596,4 +596,27 @@
         Any two hosts in a connection can close the connection, which involves sending a TCP segment with a FIN bit of 1. The receiver of that segment responds with an ACK bit of 1. The
         original sender then replies with a message to acknowledge the connection shutdown, after which the connection is closed and the resources for that connection can be deallocated.
 
+    \subsection{Principles of Congestion Control}
+
+      \subsubsection{Causes of Congestion Control}
+        Below is a list of three increasingly complex scenarios that describe sample causes of network congestion:
+        \begin{enumerate}
+          \item \textbf{Two senders and a router with infinite buffers.} If the throughput of the network does not keep up with the sending rates of the hosts, the delay will grow
+            asymptotically.
+          \item \textbf{Two senders and a router with finite buffers.} Packet loss or long delays due to network congestion may lead to packet retransmissions, which in turn contribute
+            further to network congestion.
+          \item \textbf{Multiple senders, routers with finite buffers, multihop paths.} Network congestion can cause delays or packet loss between different hosts that happen to be
+            communicating through the same infrastructure (i.e. same router). More routers involved in delivering packets opens the possibility for more wasted effort, since since
+            upstream effort in delivering a packet that ends up getting dropped later is wasted.
+        \end{enumerate}
+
+      \subsubsection{Approaches to Congestion Control}
+        The general approaches to congestion control are:
+        \begin{itemize}
+          \item \textbf{End-to-end congestion control}, which is a form of congestion control handled only by end systems, which infer network congestion based on observed network behavior. 
+            This is the method of congestion control used by TCP.
+          \item \textbf{Network-assisted congestion control}, which is a form of congestion control where network routers provide feedback on congestion to end systems. This feedback can
+            range be something simple, like a single congestion bit, or something more complex like an explicit rate at which the sender should send.
+        \end{itemize}
+
 \end{document}
