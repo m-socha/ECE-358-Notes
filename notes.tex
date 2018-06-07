@@ -632,7 +632,7 @@
         short start phases, the average throughput of a connection is $\frac{3}{4} \cdot \frac{W}{RTT}$, where $W$ is the window size where loss events begin to occur, and $RTT$ is the
         round trip time.
 
-        When packet loss is factored in, the average throughput of a connection becomes around $\frac{1.33 \cdot MSS}{RTT \sqrt{L}}$, where $L$ is the packet loss ratio. A key takeaway
+        When packet loss is factored in, the average throughput of a connection becomes around $\frac{1.22 \cdot MSS}{RTT \sqrt{L}}$, where $L$ is the packet loss ratio. A key takeaway
         from this is that loss ratios often need to be very small in order for throughput to be close to its nominal maximum.
 
       \subsubsection{TCP Fairness}
