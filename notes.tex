@@ -619,4 +619,25 @@
             range be something simple, like a single congestion bit, or something more complex like an explicit rate at which the sender should send.
         \end{itemize}
 
+    \subsection{TCP Congestion Control}
+      Since the IP layer provides no feedback regarding network congestion, TCP implements an end-to-end congestion control mechanism. TCP congestion control introduces a new variable
+      known as a congestion window (cwnd), which limits the number of unACKed packets sent by a sender (should be minimum of receive window and congestion window).
+
+      When a TCP connection is first established, the initiation cwnd is set very low (1 minimum segment size (MSS)). However, on each successful ACK, this segment size doubles. Once some
+      packet loss in indicated, cwnd is either halved and then grows linearly (the newer TCP Reno, which implements this ``fast recovery'') or is set back to 1 (the older TCP Tahoe).
+      In general, the cwnd increase should switch from exponential to linear once it reaches half of its previous value before timeout.
+
+      \subsubsection{TCP Throughput}
+        Once a connection experiences packet loss, fast recovery implementations of TCP halve its value, after which it linearly grows back to its max value. Thus, ignoring the relatively
+        short start phases, the average throughput of a connection is $\frac{3}{4} \cdot \frac{W}{RTT}$, where $W$ is the window size where loss events begin to occur, and $RTT$ is the
+        round trip time.
+
+        When packet loss is factored in, the average throughput of a connection becomes around $\frac{1.33 \cdot MSS}{RTT \sqrt{L}}$, where $L$ is the packet loss ratio. A key takeaway
+        from this is that loss ratios often need to be very small in order for throughput to be close to its nominal maximum.
+
+      \subsubsection{TCP Fairness}
+        The goal of fairness is that $K$ TCP connections sharing a link of bandwidth $R$ should each have an average bandwidth of $\frac{R}{K}$. TCP's congestion control mechanism makes it
+        fair, though since UDP does not implement congestion control, it does not adhere to such fairness. However, even with TCP, this fairness restriction can be circumvented by opening
+        multiple parallel connections between the same hosts.
+
 \end{document}
