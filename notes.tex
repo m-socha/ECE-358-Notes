@@ -700,4 +700,31 @@
         tend to offer fewer service guarantees, and instead rely on ``smart'' end systems to perform flow control, error recovery, etc. The Internet is an
         example of a datagram network, while some older systems (e.g. ATMs) use VC networks.
 
+    \subsection{Router Architecture}
+      A router has two key functions, which are forwarding (also known as switching) datagrams from input to output links, and running routing algorithms
+      which are used to find paths between hosts. The main components of a router are input ports, output ports, switching fabric, which connect input
+      ports to output ports, and a routing processor, which is a software component that runs routing algorithms.
+
+      \subsubsection{Input Processing}
+        A main forwarding table is managed by the routing processor. Each input port typically has a shallow copy of this table, which it uses to determine
+        the appropriate output port. If datagrams arrive faster than the forwarding rate into the switch fabric, then they may be queued up. This often leads
+        to a phenomenon knows as Head-of-the-Line (HOL) blocking, which occurs when a queued datagram at the front of a queue prevents others from moving
+        forward, even when they have different destination ports.
+
+      \subsubsection{Switching}
+        Switching fabrics transfer datagrams from an input buffer to the appropriate output buffer. The three main switching mechanisms are:
+        \begin{itemize}
+          \item \textbf{Switching via shared memory.} First generation routers performed switching by using shared memory controlled by a CPU. Most new routers
+            use shared memory but with most processing performed by line cards.
+          \item \textbf{Switching via a bus.} This is typically done by an input port appending a switch-internal header storing the output port of a datagram,
+            which is sent over a bus connected to all output ports. Only the output port the datagrams is actually destined for processes the datagram. Bus
+            contention between different datagrams is a common problem, making the switching speed ultimately limited by bus bandwidth.
+          \item \textbf{Switching via interconnection network.} These networks form a grid of buses that is capable of forwarding multiple datagrams in parallel.
+        \end{itemize}
+
+      \subsubsection{Output Processing}
+        Output processing involves datagrams stored in an output port's memory being transmitted over the output link. Buffering may occur if the arrival rate
+        from the switch exceeds the output line speed, which may result in delay or packet loss. A good recommendation for the amount of buffering needed is
+        $\frac{RTT \cdot C}{\sqrt{N}}$, where $C$ is the link capacity and $N$ is the number of flows passing through the link.
+
 \end{document}
