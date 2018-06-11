@@ -669,4 +669,35 @@
           \item Whether some minimum bandwidth is guaranteed.
         \end{itemize}
 
+    \subsection{Virtual Circuit and Datagram Networks}
+      The network layer can either provide connection-oriented or connectionless service between two hosts. Computer networks that implement
+      connection-oriented service are known as virtual-circuit (VC) networks, while computer networks that implement connectionless service
+      are known as datagram networks. There may seem to be a parallel with connection-oriented and connectionless transport protocols, but
+      a network layer's service is implemented in the network core, and a network layer may provide only one of these types of services, and
+      not both.
+
+      \subsubsection{Virtual Circuits (VCs)}
+        Virtual circuits implement a connection-oriented network layer service. A VC consists of a path between two hosts, with a number assigned
+        for each link on the path. These numbers are used in forwarding tables to determine the outgoing link and also the outgoing VC number.
+
+        A VC circuit consists of the following three phases:
+        \begin{enumerate}
+          \item \textbf{VC Setup}, where the network layer determines the path between the sender and receiver, determines VC numbers, updates
+            each router's forwarding table, and may reserve resources (e.g. bandwidth) along the path.
+          \item \textbf{Data Transfer}, where packets flow across the VC.
+          \item \textbf{VC Teardown}, which undoes the steps taken during setup.
+        \end{enumerate}
+
+        Messages sent by end systems to initialize or terminate a VC are known as signaling messages, while protocols used to exchange these messages
+        are known as signaling protocols.
+
+      \subsubsection{Datagram Networks}
+        Virtual circuits implement a connectionless network layer service. Instead of storing information connection state information, forwarding tables
+        index by ranges of addresses. If addresses do not divide up nicely into ranges, longest prefix matches can be applied.
+
+      \subsubsection{VC vs Datagram Networks}
+        As a general rule, datagram networks are more elastic than VC networks, and can connect many hosts with different link types. Datagram networks
+        tend to offer fewer service guarantees, and instead rely on ``smart'' end systems to perform flow control, error recovery, etc. The Internet is an
+        example of a datagram network, while some older systems (e.g. ATMs) use VC networks.
+
 \end{document}
