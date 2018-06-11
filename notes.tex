@@ -640,4 +640,33 @@
         fair, though since UDP does not implement congestion control, it does not adhere to such fairness. However, even with TCP, this fairness restriction can be circumvented by opening
         multiple parallel connections between the same hosts.
 
+  \section{Network Layer}
+
+    \subsection{Overview}
+      The network layer handles transporting segments from one host to another. Segments from the sending host are encapsulated into datagrams (i.e. network-layer packets),
+      and segments at the receiving host have their transport-layer segments extracted and passed up to the transport layer.
+
+      \subsubsection{Forwarding and Routing}
+        To transport packets from one host to another, the network layer makes use of two main functions:
+        \begin{itemize}
+          \item \textbf{Forwarding}, which involves a router moving a packet from an input link to the appropriate output link.
+          \item \textbf{Routing}, which involves the network layer applying a routing algorithm to determine the route taken by a packet between hosts.
+        \end{itemize}
+
+        Each router stores a forwarding table, which provides a map between a certain incoming header field and the output link to be used. Each received packet is  
+        looked up in this field to determine its output link.
+
+      \subsubsection{Connection Setup}
+        On top of forwarding and routing, some network architectures use a third function for connection setup. In such networks, before two end hosts can exchange
+        data, the routers along the chosen path must also undergo some handshake procedure.
+
+      \subsubsection{Network Service Models}
+        A network service model defines some characteristics of end-to-end packet transport. Examples of such characteristics include:
+        \begin{itemize}
+          \item Whether delivery is guaranteed.
+          \item Whether delivery delay is bounded.
+          \item Whether packet delivery is in-order.
+          \item Whether some minimum bandwidth is guaranteed.
+        \end{itemize}
+
 \end{document}
