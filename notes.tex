@@ -687,9 +687,9 @@
     \subsection{Virtual Circuit and Datagram Networks}
       The network layer can either provide connection-oriented or connectionless service between two hosts. Computer networks that implement
       connection-oriented service are known as virtual-circuit (VC) networks, while computer networks that implement connectionless service
-      are known as datagram networks. There may seem to be a parallel with connection-oriented and connectionless transport protocols, but
-      a network layer's service is implemented in the network core, and a network layer may provide only one of these types of services, and
-      not both.
+      are known as datagram networks. There may seem to be a parallel with connection-oriented and connectionless transport protocols. However,
+      unlike with transport protocols, a network layer's service is implemented in the network core, and a network layer may provide only one of
+      these types of services.
 
       \subsubsection{Virtual Circuits (VCs)}
         Virtual circuits implement a connection-oriented network layer service. A VC consists of a path between two hosts, with a number assigned
@@ -707,7 +707,7 @@
         are known as signaling protocols.
 
       \subsubsection{Datagram Networks}
-        Virtual circuits implement a connectionless network layer service. Instead of storing information connection state information, forwarding tables
+        Datagram networks implement a connectionless network layer service. Instead of storing connection state information, forwarding tables
         index by ranges of addresses. If addresses do not divide up nicely into ranges, longest prefix matches can be applied.
 
       \subsubsection{VC vs Datagram Networks}
@@ -732,7 +732,7 @@
           \item \textbf{Switching via shared memory.} First generation routers performed switching by using shared memory controlled by a CPU. Most new routers
             use shared memory but with most processing performed by line cards.
           \item \textbf{Switching via a bus.} This is typically done by an input port appending a switch-internal header storing the output port of a datagram,
-            which is sent over a bus connected to all output ports. Only the output port the datagrams is actually destined for processes the datagram. Bus
+            which is sent over a bus connected to all output ports. Only the output port the datagram is actually destined for processes the datagram. Bus
             contention between different datagrams is a common problem, making the switching speed ultimately limited by bus bandwidth.
           \item \textbf{Switching via interconnection network.} These networks form a grid of buses that is capable of forwarding multiple datagrams in parallel.
         \end{itemize}
