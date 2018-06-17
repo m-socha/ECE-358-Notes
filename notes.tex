@@ -442,7 +442,7 @@
   \section{Transport Layer}
     The transport layer allows for logical communication between applications running on different hosts. Logical communication means that the applications involved can interact with one
     another as though they were directly connected. Transport-layer protocols are implemented in end systems, with the sender side breaking up application messages into transport-layer
-    packets (or segments), and the receiving side reassembling them into messages send to the application layer.
+    packets (or segments), and the receiving side reassembling them into messages sent to the application layer.
 
     \subsection{Transport vs Network Layer}
       The transport layer is just above the network layer. The network layer provides logical communication between hosts, while the transport layer provides logical communication between
@@ -458,7 +458,8 @@
         In connectionless demultiplexing, only the destination port number is involved in determining which socket should receive a segment; segments with the same dest port but
         different source IP addresses are sent to the same socket.
 
-        In connection-oriented demultiplexing, the source and dest IP address and port are all considered, with the received using all four values to direct the segment to the appropriate
+        In connection-oriented demultiplexing, the source and destination IP addresses and ports are all considered, with the receiver using all four values to direct the
+        segment to the appropriate socket.
 
       \subsubsection{Multiplexing}
         Multiplexing involves gathering data chunks from a host's sockets, encapsulating each chunk with header information that is later used in demultiplexing, and passing the segments to
@@ -513,7 +514,7 @@
 
       \subsubsection{RDT over Channel with Errors and Loss}
         The possibility of packet loss over a channel adds to problems of packet loss detection and handling. This can be addressed by the sender using a countdown timer mechanism for each
-        packet, which will trigger the packet to be re-sent if an ACK signal is not received on time. Since it is possible that a packet is not lost by merely delayed, this opens up the
+        packet, which will trigger the packet to be re-sent if an ACK signal is not received on time. Since it is possible that a packet is not lost but merely delayed, this opens up the
         possibility of duplicate packets being sent, but this is already handled through packet sequence numbers.
 
       \subsubsection{Pipelined RDT Protocols}
@@ -544,11 +545,11 @@
           \item Source and dest port numbers
           \item Sequence number and acknowledgment number, which are used in implementing a reliable data transfer service
           \item Header length, which specifies length of TCP header in words (length can vary due to options field)
-          \item Flag fields (ACK bit for acknowledgments, RST, SYN and FIN bits for connection setup and teardown, PSH bit indicating receiver should push data to upper layer immediately,  
-            and URG used to indicate whether there is urgent data
+          \item Flag fields (ACK bit for acknowledgments, RST, SYN and FIN bits for connection setup and teardown, PSH bit indicating receiver should push data to
+            upper layer immediately, and URG used to indicate whether there is urgent data)
           \item Receive window, which is used for flow control
           \item Checksum field, as in UDP
-          \item Urgent data pointing indicating the last word of urgent data
+          \item Urgent data pointer indicating the last word of urgent data
         \end{itemize}
 
         The sequence number is the byte-stream number of the first byte in a segment. The acknowledgment number is the number of the next byte expected from the sender. TCP provides
@@ -602,8 +603,8 @@
       \subsubsection{Connection Management}
         A two-way handshake involves a host sending a connection request to another host, which in turn replies with a message. However, two-way handshakes can lead to deadlocks or half-open
         clients, so TCP makes use of a three-way handshake. In a three-way handshake, a host sets the SYN bit to 1 and sets an initial sequence number (isn). The receiver replies with a
-        SYN bit of 1, an acknowledgment of the client isn + 1, and ACK bit of 1, and its own initial sequence number. This part of establishing a connection is known as the SYNACK segment.
-        One the original sender receives this message it replies with a sequence number of the server isn + 1, and sets the ACK bit to 1.
+        SYN bit of 1, an acknowledgment of the client isn + 1, an ACK bit of 1, and its own initial sequence number. This part of establishing a connection is known as the SYNACK segment.
+        Once the original sender receives this message it replies with a sequence number of the server isn + 1, and sets the ACK bit to 1.
 
         Any two hosts in a connection can close the connection, which involves sending a TCP segment with a FIN bit of 1. The receiver of that segment responds with an ACK bit of 1. The
         original sender then replies with a message to acknowledge the connection shutdown, after which the connection is closed and the resources for that connection can be deallocated.
@@ -628,12 +629,12 @@
           \item \textbf{End-to-end congestion control}, which is a form of congestion control handled only by end systems, which infer network congestion based on observed network behavior. 
             This is the method of congestion control used by TCP.
           \item \textbf{Network-assisted congestion control}, which is a form of congestion control where network routers provide feedback on congestion to end systems. This feedback can
-            range be something simple, like a single congestion bit, or something more complex like an explicit rate at which the sender should send.
+            range from something simple, like a single congestion bit, or something more complex like an explicit rate at which the sender should send.
         \end{itemize}
 
     \subsection{TCP Congestion Control}
       Since the IP layer provides no feedback regarding network congestion, TCP implements an end-to-end congestion control mechanism. TCP congestion control introduces a new variable
-      known as a congestion window (cwnd), which limits the number of unACKed packets sent by a sender (should be minimum of receive window and congestion window).
+      known as a congestion window (cwnd), which limits the number of unACKed packets sent by a sender (should be the minimum of receive window and congestion window).
 
       When a TCP connection is first established, the initiation cwnd is set very low (1 minimum segment size (MSS)). However, on each successful ACK, this segment size doubles. Once some
       packet loss in indicated, cwnd is either halved and then grows linearly (the newer TCP Reno, which implements this ``fast recovery'') or is set back to 1 (the older TCP Tahoe).
