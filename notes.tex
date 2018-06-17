@@ -71,15 +71,15 @@
       (often in data centers). Communication between devices on a network can be wired or wireless.
 
       \subsubsection{Access Networks and Physical Media}
-        End systems can connect to an edge router through various ways, including using residential access nets, institutional
+        End systems can connect to an edge router in various ways, including using residential access nets, institutional
         access networks and mobile access networks. Important considerations in such connections include a connection's bandwidth,
         latency, and whether it is shared/dedicated.
 
       \subsubsection{Digital Subscriber Line (DSL)}
         Network connections can be made through a digital subscriber line (DSL), which allows for the transmission of data over
         telephone lines. A digital subscriber line access multiplexer (DSLAM) can be used to connect multiple DSL lines to a digital
-        communications channel. Downstream transmission rates (typically < 1 Mbps) tend to be much faster than upstream transmission
-        rates (typically < 10 Mbps). Optimal transmission rates are rarely reached in practice. Each line connects directly to a
+        communications channel. Downstream transmission rates (typically $<$ 10 Mbps) tend to be much faster than upstream transmission
+        rates (typically $<$ 1 Mbps). Optimal transmission rates are rarely reached in practice. Each line connects directly to a
         central office.
 
       \subsubsection{Cable Network}
@@ -104,14 +104,14 @@
             \item Breaking the message into chunks (packets) or length $L$ bits
             \item Transmitting packets across a network at transmission rate $R$
           \end{itemize}
-      $packet transmission delay = \frac{L}{R}$
+      packet transmission delay $= \frac{L}{R}$
 
       \subsubsection{Physical Media}
         The medium facilitating transmission between a transmitter and receiver is called a physical link. Physical links may be guided
         (i.e. solid cables, such as copper, fiber or coax), or unguided (i.e. signals may propagate freely, such as through radio).
 
       \subsubsection{Coaxial Cable}
-        Coaxial cables are formed from two concentric copper conductors. Coaxial cables bidirectional and they are are broadband, so they
+        Coaxial cables are formed from two concentric copper conductors. Coaxial cables are bidirectional and they are are broadband, so they
         can support communication across multiple channels.
 
       \subsubsection{Fiber Optic Cable}
@@ -126,7 +126,7 @@
     \subsection{Network Core}
       \subsubsection{Packet Switching}
         Through store-and-forward packet-switching, an entire packet must arrive at a router before it can be transmitted on the next link. The
-        resulting end-end delay is $\frac{2L}{R}$ (plus any propagation delay).
+        resulting end-to-end delay is $\frac{2L}{R}$ (plus any propagation delay).
 
         Should the arrival rate exceed a link's transmission rate, the resulting packets will queue up. If the memory in which the packets are
         stored fills up, packets can be dropped.
@@ -141,14 +141,14 @@
         (time-division multiplexing).
 
       \subsubsection{Packet Switching vs Circuit Switching}
-        Packet switching tends to be preferable to circuit switching for bursty data. Moreover, packet switching is supports resource sharing,
+        Packet switching tends to be preferable to circuit switching for bursty data. Moreover, packet switching supports resource sharing,
         and the setup for calls is simpler than that of circuit switching. However, packet switching may have excessive congestion, resulting
         in packet delay and loss. Providing circuit-like behaviour (i.e. guaranteed bandwidth) to packet switching networks remains an unsolved
         problem.
 
       \subsubsection{Internet Structure}
         End systems typically connect to the Internet through access Internet Service Providers (ISPs). Since competing ISPs exist, they must be
-        connected to one another as well to effectively send packets to one another. These connections are implemented using Internet Exchange
+        connected to one another as well as to their end hosts to effectively exchange packets. These connections are implemented using Internet Exchange
         Points (IXPs). Moreover, some content providers may setup their own networks (content provider networks) to connect their data centers to the Internet,
         often bypassing regional ISPs. The resulting Internet network structure is quite complex, with its evolution having been driven by a
         combination of business and politics.
@@ -157,13 +157,12 @@
       \subsubsection{Sources of Packet Delay}
         $$d_{nodal} = d_{proc} + d_{queue} + d_{trans} + d_{prop}$$
       
-        \paragraph{Nodal processing} includes the time to check bit errors and determine the output link. This time is usually 10-1000us.
-
-        \paragraph{Queuing delay} is the time spent waiting at the output link for transmission.
-
-        \paragraph{Transmission delay} $\frac{L}{R}$
-
-        \paragraph{Propagation delay} $d/s$, where $d$ is the length of the physical link and $s$ is the propagation speed.
+        \begin{itemize}
+          \item \textbf{Nodal processing} includes the time to check bit errors and determine the output link. This time is usually 10-1000us.
+          \item \textbf{Queuing delay} is the time spent waiting at the output link for transmission.
+          \item \textbf{Transmission delay} is $\frac{L}{R}$
+          \item \textbf{Propagation delay} is $d/s$, where $d$ is the length of the physical link and $s$ is the propagation speed.
+        \end{itemize}
 
       \subsubsection{Queuing Delay}
         Let $R$ be the link bandwidth, $L$ be the packet length, and $a$ be the average package arrival rate. The average queuing delay
@@ -199,6 +198,8 @@
           \item \textbf{Physical:} Deals with physical specs of connection
         \end{itemize}
 
+        The Internet stack consists of the above layers except the presentation and session layer.
+
       \subsection{Security}
         The field of network security deals with how computer networks can be attacked, defending against such attacks and architectures
         that minimize the risk of attacks. Internet technologies were not designed at first with much security in mind, though security
@@ -212,12 +213,12 @@
 
       \subsubsection{Examples of Attack}
         \begin{itemize}
-          \item \textbf{Spyware:} Records user action (e.g. keystrokes, websites visited)
+          \item \textbf{Spyware:} Records user action (e.g. keystrokes, websites visited).
           \item \textbf{Botnet:} A collection of infected hosts running bots that can be used for spam, distributed denial of service (DDoS attacks), etc.
           \item \textbf{Denial of Service (DoS):} An attack where network resources (e.g. bandwidth) become unavailable to legitimate traffic due to the
-          introduction of large amounts of bogus traffic. A distributed denial of service (DDos attack) performs a DoS attack using a collection of hosts.
-          \item \textbf{Packet Sniffing} Promiscuous network connections having their data read by a third party as it passes by
-          \item \textbf{IP Address Spoofing} Packets being send from a false source IP address, which can be used to hide one's identity or impersonate another host
+            introduction of large amounts of bogus traffic. A distributed denial of service (DDos attack) performs a DoS attack using a collection of hosts.
+          \item \textbf{Packet Sniffing} Promiscuous network connections having their data read by a third party as it passes by.
+          \item \textbf{IP Address Spoofing} Packets being sent from a false source IP address, which can be used to hide one's identity or impersonate another host.
         \end{itemize}
 
   \newpage
