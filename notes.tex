@@ -637,7 +637,8 @@
       known as a congestion window (cwnd), which limits the number of unACKed packets sent by a sender (should be the minimum of receive window and congestion window).
 
       When a TCP connection is first established, the initiation cwnd is set very low (1 minimum segment size (MSS)). However, on each successful ACK, this segment size doubles. Once some
-      packet loss in indicated, cwnd is either halved and then grows linearly (the newer TCP Reno, which implements this ``fast recovery'') or is set back to 1 (the older TCP Tahoe).
+      packet loss in indicated by a triple ACK being received for the same packet, cwnd is either halved and then grows linearly (the newer TCP Reno, which implements
+      this ``fast recovery'') or is set back to 1 (the older TCP Tahoe).
       In general, the cwnd increase should switch from exponential to linear once it reaches half of its previous value before timeout.
 
       \subsubsection{TCP Throughput}
