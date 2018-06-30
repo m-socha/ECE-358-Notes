@@ -743,4 +743,97 @@
         from the switch exceeds the output line speed, which may result in delay or packet loss. A good recommendation for the amount of buffering needed is
         $\frac{RTT \cdot C}{\sqrt{N}}$, where $C$ is the link capacity and $N$ is the number of flows passing through the link.
 
+    \subsection{IP: Internet Protocol}
+      IP is a network-layer protocol used by the Internet. This section focuses on IPv4. The major components that make up the Internet's network layer are
+      the IP protocol, routing components, and a facility to report errors in datagrams and respond to requests for certain network-layer information.
+
+      \subsubsection{IP Datagram Format}
+        IP datagram headers are at least 20 bytes long. The main fields in a an IP datagram are:
+        \begin{itemize}
+          \item \textbf{Version number:} Specifies IP protocol version.
+          \item \textbf{Header length:} Used to determine where the data actually begins (necessary because header has variable-length options field).
+          \item \textbf{Type of service:} Allows for different types of IP datagrams to be distinguished.
+          \item \textbf{Datagram length:} Total length of IP datagram, including header data, measured in bytes. Maximum theoretical size is 65535 bytes,
+            but datagrams are rarely larger than 1500 bytes.
+          \item \textbf{Identifier, flags, fragmentation offset:} Support a concept known as IP fragmentation, where IP packets are broken down into
+            smaller packets.
+          \item \textbf{Time-to-live (TTL):} A counter that is decremented by one each time the datagram is processed by a router. Once the field reaches
+            0, the datagram is dropped, preventing it from circulating in a loop forever.
+          \item \textbf{Upper-layer protocol:} Indicated transport-layer protocol to use at destination.
+          \item \textbf{Header checksum:} Aids router in detecting bit errors.
+          \item \textbf{Source and destination IP addresses:} Used to identify source and destination hosts.
+          \item \textbf{Options:} Variable-length field used to store data such as timestamp, route taken, or routers to visit.
+          \item \textbf{Data (payload):} Typically carries transport-layer segment to deliver to host.
+        \end{itemize}
+
+      \subsubsection{IP Fragmentation}
+        Different network links have different maximum transmission units (MTUs). Thus, it is sometimes necessary to break up large IP datagrams into several
+        smaller ones known as fragments, which must be reassembled before being transferred to the transport layer.
+
+        The identifier, flags, and fragmentation offset fields are necessary for successful reassembly. An identifier is set when the datagram is sent from
+        the source host. Fragments of this datagram use the same identifier. The flag bit indicates which fragment is the last one in the datagram
+        (the last flag is 0, while all others are 1). The offset field is used to specify where the fragment fits in the original datagram.
+
+      \subsubsection{IP Addressing}
+        An interface is a connection between a host or router to a physical link. Hosts often have only one interface, while routers tend to have many.
+        IP addresses are 32-bit identifiers for each device connected to the Internet.
+
+        Subnets are a logical subdivision of an IP network, and consist of devices that can reach each other without an intervening router. In IP addressing,
+        the high-order bits are dedicated to identifying the subnet, while the low-order bits are dedicated to identifying the host.
+
+        The IP address assignment strategy applied on the Internet is known as Classless Interdomain Routing (CIDR). IP addresses can be expressed in dotted
+        decimal form a.b.c.d/x, where the first x bits form the prefix. The prefix refers to the subnet portion of the IP address, while the remaining
+        32 - x bits are used to identify devices within a subnet. x can be of various sizes, and routers outside the subnet only need to store the first x bits
+        of an address to perform forwarding. CIDR differs from classful addressing, where the value of x must fall into value classes of 1, 2 or 3 bytes.
+
+        Obtaining a block of IP addresses to use within a subnet is usually handled by an ISP. IP addresses are managed by the Internet Corporation for
+        Assigned Names and Numbers (ICANN).
+
+        The Dynamic Host Configuration Protocol (DHCP) allows for hosts to dynamically obtain an IP address when joining a network. This provides an
+        advantage over having to manually assign an address to each device, and also supports mobile users who frequently join and leave networks.
+        The four main steps in the DHCP protocol are:
+        \begin{enumerate}
+          \item DHCP server discovery, where the DHCP host can broadcast a discover message.
+          \item The DHCP server can respond by broadcasting an offer message. This message contains the proposed IP address, the network mask
+          (i.e. network part of IP address) and address lease time (i.e. time to expiry).
+          \item The host requests an IP address by sending the configuration parameters to one of the DHCP servers.
+          \item The server responds with a DCHP ACK message.
+        \end{enumerate}
+
+        Network Address Translation (NAT) allows for a local network to appear to the outside world as a single host (i.e. with one IP address).
+        A few benefits of this technology include that a smaller range of IP addresses needs to be allocated from an ISP, device addresses are easy
+        to change, and devices within a network are more secure when they are not explicitly addressable. NAT is implemented by NAT routers, which
+        translate local device addresses and port numbers to the NAT router IP address and some port number.
+
+        Adaption of NAT was controversial for several reasons. For one, NAT uses port numbers to address hosts, instead of their original purpose of
+        addressing processes. Moreover, NAT can prevent hosts in a P2P network from directly communicating with one another. However, this latter
+        problem can often be overcome by the processes first establishing connections to some other process not behind a NAT, which can then help setup
+        a connection between the two original processes.
+
+        Internet Control Message Protocol (ICMP) is used by hosts and routers to communicate network-level information, such as error messages, to
+        one another. ICMP is technically a level above IP, with ICMP messages carried inside IP datagrams. ICMP messages have a type and code field,
+        as well as the header and first eight bytes of the IP datagram that caused the message to be generated. The type and code contain much
+        of the information concerning why the message was sent (e.g. type 3 and code 0 indicates destination network unreachable, type 3 and code 1
+        indicates destination host unreachable).
+
+        Traceroute uses ICMP to determine the path taken by packets through a network. This is done by sending packets with incrementing time-to-live
+        values (first 1, then 2, etc.). When packets are dropped, ICMP messages indicating this are sent back to the source, which records information
+        about the routers where the messages were dropped.
+
+        So far, this section discussed features of IPv4. IPv6 is a newer version of the IP protocol initially motivated by the 32-bit address space
+        running out. Additional motivations included increasing the speed with which packets are processed. A few new features of IPv6 include:
+        \begin{itemize}
+          \item 128 bit IP addresses.
+          \item Header is fixed-length (40 bytes).
+          \item Fragmentation and reassembly must be performed at source and destination, not at intermediate routers.
+          \item Priority field in header.
+          \item Flow label in header to identify datagrams in same ``flow'' (e.g. same video transmission).
+          \item Next header field to identify upper layer protocol.
+          \item ICMPv6, which supports some new message types (e.g. ``packet too big'').
+        \end{itemize}
+
+        Transitioning the Internet from IPv4 to IPv6 is a long process. One way to support adoption of IPv6 is a dual-stack approach, where IPv6
+        routers are also backwards-compatible with IPv4 routers. Alternatively, a tunneling approach can be used, where an IPv6 datagram may be
+        carried as a payload by IPv4 datagrams.
+
 \end{document}
