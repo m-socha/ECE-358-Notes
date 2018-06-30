@@ -840,4 +840,70 @@
         routers are also backwards-compatible with IPv4 routers. Alternatively, a tunneling approach can be used, where an IPv6 datagram may be
         carried as a payload by IPv4 datagrams.
 
+    \subsection{Routing Algorithms}
+      Router networks can be expressed as a graph where nodes represent routers and edges represent links between routers. This can be expressed as
+      $G = (N,E)$, where $G$ is the graph, $N$ is the set of routers, and $E$ is the set of links. A common problem in networking is finding the
+      least-cost path between two routers. Cost can be defined in various ways (e.g. constant value, inverse of bandwidth, inverse of congestion).
+
+      \subsubsection{Routing Algorithm Classification}
+        Routing algorithms can be classified as global or decentralized. Global routing algorithms require complete knowledge of a network to calculate
+        the lowest-cost path. Global routing algorithms are also known as link-state (LS) algorithms. Decentralized algorithms start with each node
+        only having information on its surrounding links. The algorithm is then carried out in an iterative and distributed manner.
+
+        Secondly, routing algorithms can be classified as static or dynamic. Static algorithms tend to apply changes slowly over time, while dynamic
+        algorithms change routing paths to react to changes in factors such as network traffic or topology.
+
+      \subsubsection{Link-State Routing Algorithms}
+        In practice, link-state algorithms can be applied once nodes in a network broadcast link-state packets to one another, providing a global view
+        of the network. A common link-state routing algorithm is Dijsktra's algorithm, which finds the lowest-cost path from one source node to all
+        other nodes. Efficient implementations of Dijkstra's algorithm have a runtime of $O(|E| + |N|\log{|N|})$.
+
+        Note that making link costs depend on network congestion can lead to oscillations as traffic switches from a congested link to a non-congested
+        one, which then quickly becomes congested. One way to mitigate this problem is to stagger the times at which routers run the LS algorithm.
+
+      \subsubsection{Distance-Vector Routing Algorithm}
+        The distance-vector (DV) routing algorithm is a decentralized algorithm that is based on the Bellman-Ford algorithm. A key relation applied is that
+        the minimum cost of a path between some nodes $a$ and $b$ is the minimum cost between $a$ and some intermediate neighbor $c$ plus $c$ to $b$.
+        This relation can be applied when setting up the forwarding table for $a$, since we know that the lowest-cost path to get from $a$ to $b$ is
+        through $c$.
+
+        In this algorithm, each node contains the following routing information:
+        \begin{itemize}
+          \item Cost to directly attached neighbors
+          \item Distance vector that estimates distances to all destinations
+          \item Distance vector for each of its neighbors
+        \end{itemize}
+
+        The nodes asynchronously send their distance vectors to their neighbors. Once a distance vector is received, the Bellman-Ford relation above
+        is applied to try finding lower-cost paths. If a lower-cost path is found, the changed node will send its new distance vector to its neighbors. This
+        algorithm eventually converges on the actual least-cost path.
+
+        Whenever a link cost changes, the distance vectors of the adjacent nodes are recalculated. Due to the implementation of the distance-vector routing
+        algorithm, decreases in cost tend to propagate faster than increases in cost. One technique that can sometimes quicken the propagation of increases
+        in cost is known a poisoned reverse, which sets a link that routers should stop using to temporarily have infinite cost.
+
+      \subsubsection{Comparison of Routing Algorithms}
+        LS requires that each node know the cost of each link in a network, while in DV, nodes only exchange information with their neighbors. Also, LS
+        converges in the time complexity specified priorly ($O(|E| + |N|\log{|N|})$), while DV convergence time tends to vary more. LS tends to be more
+        robust, since each node calculates a forwarding table for itself; in DV, malfunctioning nodes can propagate incorrect information deep into
+        a network.
+
+      \subsubsection{Hierarchical Routing}
+        It is impractical to apply the algorithms above for an entire, large, ``flat'' network. For one, in a large network, is it infeasible to store
+        all destinations in a routing table. Moreover, issues of administrative autonomy must be considered; different network administrators may wish
+        to administer their network in different ways.
+
+        Hierarchical routing consists of aggregating routers into autonomous systems (ASs), each typically under control of the same administrator.
+        Routers within the same AS can run the same intra-AS routing protocols. Routers responsible for forwarding packets to different ASs are known
+        as gateway routers.
+
+        An inter-AS routing protocol is responsible for propagating information among routers of an AS about the reachability of a different AS.
+        Forwarding tables for routers within a network are constructed using a combination of the intra-AS and inter-AS routing protocol. Choosing
+        a gateway router to send packets to a different AS typically follows the these steps:
+        \begin{itemize}
+          \item Learn gateways that access different AS.
+          \item Use routing info from intra-AS protocol to determine least-cost path to gateways.
+          \item Apply hot-potato routing, where the packet is sent down the gateway with the lowest-cost path.
+        \end{itemize}
+
 \end{document}
