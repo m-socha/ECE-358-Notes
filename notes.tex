@@ -789,6 +789,7 @@
         Obtaining a block of IP addresses to use within a subnet is usually handled by an ISP. IP addresses are managed by the Internet Corporation for
         Assigned Names and Numbers (ICANN).
 
+      \subsubsection{Dynamic Host Configuration Protocol (DHCP)}
         The Dynamic Host Configuration Protocol (DHCP) allows for hosts to dynamically obtain an IP address when joining a network. This provides an
         advantage over having to manually assign an address to each device, and also supports mobile users who frequently join and leave networks.
         The four main steps in the DHCP protocol are:
@@ -800,6 +801,7 @@
           \item The server responds with a DCHP ACK message.
         \end{enumerate}
 
+      \subsubsection{Network Address Translation (NAT)}
         Network Address Translation (NAT) allows for a local network to appear to the outside world as a single host (i.e. with one IP address).
         A few benefits of this technology include that a smaller range of IP addresses needs to be allocated from an ISP, device addresses are easy
         to change, and devices within a network are more secure when they are not explicitly addressable. NAT is implemented by NAT routers, which
@@ -810,6 +812,7 @@
         problem can often be overcome by the processes first establishing connections to some other process not behind a NAT, which can then help setup
         a connection between the two original processes.
 
+      \subsubsection{Internet Control Message Protocol (ICMP)}
         Internet Control Message Protocol (ICMP) is used by hosts and routers to communicate network-level information, such as error messages, to
         one another. ICMP is technically a level above IP, with ICMP messages carried inside IP datagrams. ICMP messages have a type and code field,
         as well as the header and first eight bytes of the IP datagram that caused the message to be generated. The type and code contain much
@@ -820,6 +823,7 @@
         values (first 1, then 2, etc.). When packets are dropped, ICMP messages indicating this are sent back to the source, which records information
         about the routers where the messages were dropped.
 
+      \subsubsection{IPv6}
         So far, this section discussed features of IPv4. IPv6 is a newer version of the IP protocol initially motivated by the 32-bit address space
         running out. Additional motivations included increasing the speed with which packets are processed. A few new features of IPv6 include:
         \begin{itemize}
