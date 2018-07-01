@@ -906,4 +906,58 @@
           \item Apply hot-potato routing, where the packet is sent down the gateway with the lowest-cost path.
         \end{itemize}
 
+    \subsection{Routing in the Internet}
+
+      \subsubsection{Routing Information Protocol (RIP)}
+        RIP is one of the earliest intra-AS routing protocols and remains in widespread use. RIP operates based on a distance-vector algorithm.
+        The cost of a path is simply its number of hops (up to a max of 15) from a source router to a destination subnet. Routing updates are
+        exchanged with neighbors using an RIP response message, also known as an RIP advertisement. This message contains the sender's distance
+        to up to 25 destination subnets.
+
+        If no advertisement is heard from a router for 180 seconds, it is considered dead. The neighboring routing tables are updated, and this
+        information propagates throughout the network. A poison reverse can be used to accelerate this propagation.
+
+      \subsubsection{Open Shortest Path First (OSPF)}
+        OSPF is an intra-AS link-state routing algorithm. Routers periodically advertise their state to the entire AS, and each router applies
+        Dijkstra's algorithm to find the shortest path to each gateway router, where path cost is configurable. Exchanges between routers can be
+        authenticated to ensure only trusted routers can participate. Another protocol known as Intermediate System to Intermediate System (IS-IS)
+        is very similar to OSPF.
+
+        OSPF can also be organized hierarchically within an AS. There is typically a two-level hierarchy, which consists of local areas and a
+        backbone. Routers between different areas are known is area border routers. The backbone, whose main purpose is to route traffic between
+        local areas, is connected to all the area border routers.
+
+      \subsubsection{Border Gateway Protocol (BGP)}
+        BGP is the standard inter-AS routing protocol used for the Internet. BGP is known for being highly complex, so this section only provides
+        a very high-level overview.
+
+        BGP supports TCP connections between routers in different ASs (external BGP sessions), as well as TCP connections between routers in
+        the same AS (internal BGP sessions). These sessions are used to collect information on ``good'' routes to other ASs and propagate it
+        within the AS. The types of messages exchanged during these sessions include:
+        \begin{itemize}
+          \item \textbf{OPEN:} Opens TCP connection between two peer routers.
+          \item \textbf{UPDATE:} Advertises new path, or withdraws old path.
+          \item \textbf{KEEPALIVE:} Keeps connection alive in absence of UPDATES, and also ACKs OPEN message.
+          \item \textbf{NOTIFICATION:} Used to report errors in previous messages or close connection.
+        \end{itemize}
+
+        When a prefix (subnet or collection of subnets) is advertised across of BGP session, some of its key attributes include:
+        \begin{itemize}
+          \item \textbf{AS-PATH:} Contains ASs through which prefix advertisement traveled.
+          \item \textbf{NEXT-HOP:} Router interface that begins AS-PATH.
+        \end{itemize}
+        When gateway routers receive a prefix advertisement, they apply an import policy to determine whether to accept or reject the route.
+
+        If a router receives multiple routes to a prefix, the router selects the ``best'' route by sequentially invoking these elimination rules:
+        \begin{enumerate}
+          \item Local preference value, which is setup by a network administrator
+          \item Shortest AS-PATH
+          \item Closest NEXT-HOP (hot-potato routing)
+          \item Any additional BGP criteria
+        \end{enumerate}
+        An output port is then found for the prefix, after which the prefix-port entry is added to the forwarding table.
+
+        An admin is able to control who routes through their AS by not advertising paths to other ASs. While intra-AS routing protocols tend to
+        focus on performance, policy and business play a larger role in inter-AS routing protocols.
+
 \end{document}
