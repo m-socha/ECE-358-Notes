@@ -960,4 +960,32 @@
         An admin is able to control who routes through their AS by not advertising paths to other ASs. While intra-AS routing protocols tend to
         focus on performance, policy and business play a larger role in inter-AS routing protocols.
 
+    \subsection{Broadcast and Multicast Routing}
+      Broadcast routing involves delivering a packet from one source to all other nodes, while multicast routing involves delivering a packet from
+      one source to some subset of nodes.
+
+      \subsubsection{N-Way-Unicast}
+        N-way-unicast broadcasting involve sending a separate copy of a packet to each node. This approach is simple, but can lead to inefficiencies
+        (e.g. network congestion). Also, obtaining the addresses of all recipients likely involves additional overhead.
+
+      \subsubsection{Uncontrolled Flooding}
+        Uncontrolled flooding involves a source node sending a copy of a received packet to all neighbors (except the sender). While less likely to
+        immediately cause network congestion, drawbacks include:
+        \begin{itemize}
+          \item Cycles in networking causing broadcast packets to propagate indefinitely
+          \item Endless multiplication of broadcast packets, leading to a phenomenon known as a broadcast storm or broadcast radiation
+        \end{itemize}
+
+      \subsubsection{Controlled Flooding}
+        Several techniques can be applied to prevent the broadcast storms that result from uncontrolled flooding. One such technique is
+        sequence-number-controlled flooding, where a host puts a unique identifier (i.e. its address) and a broadcast sequence number
+        into the broadcast packets sent to neighbors. Each router stores a list of received packets, and packets are only duplicated and
+        forwarded if they have not yet been received.
+
+        Another technique to control flooding is called reverse path forwarding (RPF). In this technique, a router only duplicates and sends
+        a packet if the router which sent the packet is on the shortest path to the unicast source.
+
+        Another technique for controlling flooding is to construct a spanning tree from a network. Unlike the previous two techniques, this
+        completely removes transmission of redundant packets, since packets are only forwarded along the tree rather than to all neighbors.
+
 \end{document}
