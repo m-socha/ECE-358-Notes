@@ -988,4 +988,27 @@
         Another technique for controlling flooding is to construct a spanning tree from a network. Unlike the previous two techniques, this
         completely removes transmission of redundant packets, since packets are only forwarded along the tree rather than to all neighbors.
 
+  \section{Link Layer}
+    The purpose of a link layer is to transfer datagrams between physically adjacent nodes over a link. These nodes can include hosts, routers, switches,
+    WiFi access points, or any other device linked to a network. Links refer to communication channels connecting adjacent nodes.
+
+    \subsection{Services}
+      Different protocols used in the link layer can provide different services over links. Some common services include:
+      \begin{itemize}
+        \item \textbf{Framing:} Involves encapsulating network layer datagram within a link layer frame.
+        \item \textbf{Link access:} A medium access protocol (MAC) specifies how a frame is transferred onto a link. Sometimes, multiple nodes
+          share a single broadcast link, a situation referred to as the multiple access problem.
+        \item \textbf{Reliable delivery:} Involves ensuring that a network layer datagram is moved across a link without error. This is rarely
+          implemented on links with low error rates (e.g. fiber optic links), but is more common when error rates are higher, such as on wireless
+          links.
+        \item \textbf{Error detection and correction:} Error detection refers to finding bit errors, and correction refers to correcting them without
+          resorting to retransmission.
+        \item \textbf{Flow control:} Concerns pacing of datagram transmission across links.
+      \end{itemize}
+
+      These services are implemented in a host's network adapter, also known as a network interface card (NIC). These implementations exist as a combination
+      of hardware, software, and firmware. Adaptors of adjacent nodes communicate with one another across a communication link. The sender encapsulates a datagram
+      in a frame and sends it across a link. The sender may also provide additional services such as reliable data transfer or flow control. The receiver extracts
+      this datagram, and may also provide additional services such as error detection.
+
 \end{document}
