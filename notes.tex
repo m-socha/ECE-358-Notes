@@ -1011,4 +1011,23 @@
       in a frame and sends it across a link. The sender may also provide additional services such as reliable data transfer or flow control. The receiver extracts
       this datagram, and may also provide additional services such as error detection.
 
+    \subsection{Error Detection and Correction}
+      Error detection and correction involves protecting data (D) using error detection and correction bits (EDC). The receiver attempts to use the received EDC
+      and data to determine whether there were errors in transmission, and attempts to correct them if possible.
+
+      \subsubsection{Parity Checks}
+        A very simple form of error detection involves adding a single bit that makes the total number of 1 bits either even or odd. For example, in an even parity
+        schema, if the number of 1s in the data is even, then the parity bit is 0. If the number of 1s in the data is odd, then the parity bit is a 1.
+
+        This technique fails at detecting multiple bit errors in a single datagram, which can commonly happen in practice. A more robust approach involves dividing
+        the protected data into rows and columns, each of which has its own parity bits. This two-dimensional approach allows for multiple bit errors to be
+        detected in some cases. This approach also allows for detecting which bit was flipped (i.e. the intersection of an errored row and column).
+
+      \subsubsection{Cyclic Redundancy Check}
+        Cyclic redundancy checking (CRC) is a widely used technique for error detection. CRC involves a sender and receiver agreeing upon a generator (G) bit
+        pattern of length $r + 1$. When sending data of length $d$, $r$ bits are appended by the sender such that the result is exactly divisible by $G$.
+        The receiver considers data to have errors when the received $d + r$ bit pattern is not divisible by $G$. These $r$ bits can be calculated as:
+
+        $$R = remainder(\frac{D \cdot 2^r}{G})$$
+
 \end{document}
