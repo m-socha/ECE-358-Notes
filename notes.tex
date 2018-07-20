@@ -1030,4 +1030,73 @@
 
         $$R = remainder(\frac{D \cdot 2^r}{G})$$
 
+    \subsection{Multiple Access Links and Protocols}
+      Links may either be point-to-point, where senders are only connected to a single receiver, or broadcast, where senders can be connected to multiple receivers.
+      Multiple access protocols are used to regulate transmission into shared broadcast channels to prevent the collision of frames. A few desirable characteristics
+      of multiple access protocols are:
+      \begin{itemize}
+        \item When only one node transmits, it can use the channel's full capacity.
+        \item When multiple nodes transmit, their average channel usage is the total usage divide by the number of transmitting nodes.
+        \item The protocol is fully decentralized (i.e. no master node that may introduce a single point of failure).
+        \item The protocol is simple.
+      \end{itemize}
+
+      \subsubsection{Channel Partitioning}
+        Channel partitioning protocols involve dividing a channel into pieces that can be allocated to a single node for exclusive use.
+
+        One technique for channel partitioning is time division multiple access (TDMA). Exclusive access to a channel is organized in rounds, and each
+        node has a slot in this round where it can send data. This technique is fair and collision free, but inefficient, since time is wasted by allocating
+        slots to nodes with no data to send.
+
+        Another technique for channel partitioning is frequency division multiple access (FDMA). A channel is divided into frequency bands, and each frequency
+        band is assigned to a single node. FDMA is fair and collision free, but bandwidth is still wasted by allocating frequency bands to nodes not transmitting
+        data.
+
+      \subsubsection{Random Access Protocols}
+        In random access protocols, senders attempt to use a channel's full bandwidth when sending data. This introduces the possibility of collisions. When
+        a collision occurs, the sender waits a random window of time before retransmitting. A few common random access protocols are described in this section.
+
+        \textbf{Slotted ALOHA} makes the following assumption:
+        \begin{itemize}
+          \item All transmitted frames are of equal size.
+          \item Time is windowed into fixed intervals that are as long as its takes a transmit a single frame.
+          \item Nodes are synchronized in that they only begin transmission at the beginning of a time window.
+          \item If two or more nodes transmit into a slot, all nodes detect this collision.
+        \end{itemize}
+
+        When a node transmits a frame without a collision, it can immediately send another one. Otherwise, if a collision is detected, the node attempts to
+        retransmit the frame in the next window with a probability $p$.
+
+        A few advantages of slotted ALOHA are that it is simple, highly decentralized, and allows a single active node to transmit at the full rate of the channel.
+        However, slotted ALOHA is often not efficient when handling multiple sending nodes. Suppose there are $N$ nodes with frames to transmit, and the probability
+        of sending a frame in the next window is $p$. The probability that any node has a success is $Np(1-p)^{N-1}$. As the number of nodes increases, the
+        optimal efficiency approaches only $\frac{1}{e} \approx 37\%$.
+
+        \textbf{Pure (unslotted) ALOHA} is a fully decentralized version of ALOHA (nodes are not synchronized). However, the optimal efficiency is even poorer,
+        approaching $\frac{1}{2e} \approx 18\%$ as the number of sending nodes increases.
+
+        \textbf{Carrier sense multiple access (CSMA)} is based on the principle that nodes should defer their transmissions until the channel is not busy (i.e. ``listen
+          before talking'' analogy). Collisions are still possible, because propagation delay prevents nodes from immediately realizing when another node has begun
+          sending data.
+
+        \textbf{Carrier sense multiple access with collision detection (CSMA/CD)} adds a collision detection mechanism to CSMA. Collisions are detected by comparing
+          the sent and received signal strengths, which is much easier to do in wired than wireless connections. If a collision is detected, both nodes stop their
+          transmission, and independently resume it after a random window of time. A common implementation for determining this random window is a binary backoff
+          algorithm, where if a frame has already experienced $n$ collisions, its waiting window is chosen from $\{0, 1, 2, ... 2^{n-1}\}$ (i.e. the average waiting
+          time increases exponentially as more collisions occur).
+
+          The efficiency of the CSMA/CD algorithm is $\frac{1}{1 + 5\frac{d_{prop}}{d_{trans}}}$.
+
+      \subsubsection{Taking-Turns Protocols}
+        Channel partitioning protocols share a channel efficiently when nodes are at high loads, but waste bandwidth when nodes are not sending. Random access protocols
+        are efficient when a single node is sending data, but have collision overhead when multiple nodes are sending. Taking-turns protocols seek to combine the
+        advantages of both types of protocols.
+
+        One taking-turns protocol is a polling protocol, where a single node designated as a master polls other nodes in a round robin fashion to allow them to
+        transmit frames. This can eliminates empty slots and collisions, but introduces a polling delay and a single point of failure (i.e. the master node).
+
+        Another taking-turns protocol is a token-passing protocol. Instead of there being a master node, special-purpose token frame is passed between nodes.
+        Only the node with the token can send data, which it passes off after it has sent a certain number of frames or has no more frames to send. Token-passing
+        is more decentralized than polling, but still experiences additional latency from moving the token and has a single point of failure (i.e. the token itself).
+
 \end{document}
