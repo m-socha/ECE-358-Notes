@@ -1099,4 +1099,17 @@
         Only the node with the token can send data, which it passes off after it has sent a certain number of frames or has no more frames to send. Token-passing
         is more decentralized than polling, but still experiences additional latency from moving the token and has a single point of failure (i.e. the token itself).
 
+    \subsection{Switched Local Area Networks (LANs)}
+
+      \subsubsection{MAC Addresses and ARP}
+        Media access control (MAC) addresses, also known as LAN or physical addresses, serve to indicate to which physically connected interface a frame should be sent.
+        MAC addresses are 6 bytes long. Each LAN network adapter has a unique MAC address, with IEEE managing the MAC address space. MAC addresses are flat
+        (i.e. non-hierarchical) and portable (i.e. do not change depending on position in network).
+
+        The address resolution protocol (ARP) involves finding physical address from network addresses. Hosts and routers contain ARP tables that store the mapping
+        between IP and MAC addresses, as well as a time to live field after which the entry is forgotten. If a sender needs to add a missing entry to the ARP table,
+        it broadcasts (i.e. uses MAC address FF-FF-FF-FF-FF-FF) a special packet called an ARP packet. This packet contains the IP address for which a MAC address
+        should be found. If a receiver matches with this IP address, it replies with its MAC address, and the response is cached in the sender's ARP table. These
+        ARP tables are built automatically (i.e. ARP is plug-and-play).
+
 \end{document}
