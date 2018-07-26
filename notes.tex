@@ -1112,4 +1112,24 @@
         should be found. If a receiver matches with this IP address, it replies with its MAC address, and the response is cached in the sender's ARP table. These
         ARP tables are built automatically (i.e. ARP is plug-and-play).
 
+      \subsubsection{Ethernet}
+        Ethernet is the dominant LAN technology, being fast and cheap relative to competitors such as FDDI and ATM. Original Ethernet topologies used a coaxial bus to
+        interconnect all nodes, and worked as a broadcast LAN. More recent Ethernet topologies are known as star topologies, and have a switch in the center.
+        The addition of the switch can prevent collision between nodes.
+
+        In addition to a network-layer datagram, Ethernet frames consist of the following fields:
+        \begin{itemize}
+          \item \textbf{Preamble (8 bytes):} First 7 bytes store the pattern 10101010 and the last byte stores 10101011. Used to synchronize receiver and sender clock
+            rates by sending a predictable message.
+          \item \textbf{Destination address (6 bytes):} If an adapter receives a frame with a matching address (or broadcast address), its data is extracted and
+            forwarded to the network layer. Otherwise, the frame is discarded.
+          \item \textbf{Source address (6 bytes)}
+          \item \textbf{Type (2 bytes):} Indicates the higher-level protocol (e.g. IP), allowing for multiplexing among different types of protocols.
+          \item \textbf{CRC (4 bytes)}
+        \end{itemize}
+
+        Ethernet offers a connectionless service; network interfaces do not perform a handshake before exchanging data. Ethernet does not ensure reliable data transfer,
+        with network interfaces not exchanging ACKs or NAKs. Ethernet technologies use a CSMA/CD MAC protocol with binary backoff. Modern Ethernet technologies have
+        this MAC protocol and the above frame format in common, but can differ in other ways, such as through different speeds or different physical layer media.
+
 \end{document}
