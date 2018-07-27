@@ -1162,4 +1162,20 @@
           \item Faster packet processing.
         \end{itemize}
 
+      \subsubsection{Virtual LANs}
+        LANs can often be configured in a hierarchy, with different LANs connecting their switches to a switch at a higher hierarchy. A few drawbacks to this
+        approach include:
+        \begin{itemize}
+          \item \textbf{Lack of traffic isolation:} Broadcast traffic traverses the entire network, which has performance and security implications.
+          \item \textbf{Inefficient use of switches:} Extra switches are used to create a hierarchical structure of switches.
+          \item \textbf{Issues with user management:} For example, if a user switches LANs, then physical cabling needs to be redone.
+        \end{itemize}
+
+        Virtual local area networks (VLANs) address this problem by allowing for multiple virtual LANs over a single physical LAN. In port-based VLANs,
+        switch ports are grouped so that a single physical switch can operate as multiple virtual switches. Forwarding between VLANs is done via routing
+        (some devices can act as both a switch and a router).
+
+        VLANs can be defined over multiple physical switches, in which case special ports known as trunk ports are used to carry their frames between switches.
+        Special Ethernet frames known as 802.1Q frames carry VLAN ID info.
+
 \end{document}
