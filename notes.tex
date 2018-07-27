@@ -1178,4 +1178,13 @@
         VLANs can be defined over multiple physical switches, in which case special ports known as trunk ports are used to carry their frames between switches.
         Special Ethernet frames known as 802.1Q frames carry VLAN ID info.
 
+    \subsection{Link Virtualization}
+      This section gives a brief overview of multiprotocol label switching (MPLS), which is a technique for improving the performance of IP forwarding by using fixed
+      length identifiers to determine the next node in a path rather than longest prefix matching of IP addresses. An MPLS header is wrapped around an IP header, and
+      contains a label field based on which routing decisions are made (i.e. similar to a virtual-circuit identifier). MPLS-capable routers, which store an MPLS
+      forwarding table, are described as label-switched routers.
+
+      MPLS also allows for more flexible traffic routing (e.g. different flows to same destination, pre-computed backup paths) than is possible by only using IP
+      routing protocols. This is because MPLS routing is based on both the source and destination address while IP routing is only based on the destination address.
+
 \end{document}
