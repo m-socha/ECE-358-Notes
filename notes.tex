@@ -1187,4 +1187,10 @@
       MPLS also allows for more flexible traffic routing (e.g. different flows to same destination, pre-computed backup paths) than is possible by only using IP
       routing protocols. This is because MPLS routing is based on both the source and destination address while IP routing is only based on the destination address.
 
+    \subsection{Data Center Networks}
+      Large data centers can have hundreds of thousands of connected hosts servicing cloud applications. The hosts in data centers are called blades, and are
+      organized in racks of around 20 to 40 blades. A top of rack (TOR) switch connects the blades within racks. Requests received in a data center are first
+      directed to load balancers, whose job is to balance workload among hosts. To increase reliability, data center networks often include redundant network
+      equipment and links.
+
 \end{document}
