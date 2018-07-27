@@ -687,7 +687,7 @@
 
     \subsection{Virtual Circuit and Datagram Networks}
       The network layer can either provide connection-oriented or connectionless service between two hosts. Computer networks that implement
-      connection-oriented service are known as virtual-circuit (VC) networks, while computer networks that implement connectionless service
+      connection-oriented services are known as virtual-circuit (VC) networks, while computer networks that implement connectionless services
       are known as datagram networks. There may seem to be a parallel with connection-oriented and connectionless transport protocols. However,
       unlike with transport protocols, a network layer's service is implemented in the network core, and a network layer may provide only one of
       these types of services.
@@ -714,7 +714,7 @@
       \subsubsection{VC vs Datagram Networks}
         As a general rule, datagram networks are more elastic than VC networks, and can connect many hosts with different link types. Datagram networks
         tend to offer fewer service guarantees, and instead rely on ``smart'' end systems to perform flow control, error recovery, etc. The Internet is an
-        example of a datagram network, while some older systems (e.g. ATMs) use VC networks.
+        example of a datagram network, while some older systems (e.g. ATM) use VC networks.
 
     \subsection{Router Architecture}
       A router has two key functions, which are forwarding (also known as switching) datagrams from input to output links, and running routing algorithms
@@ -723,7 +723,7 @@
 
       \subsubsection{Input Processing}
         A main forwarding table is managed by the routing processor. Each input port typically has a shallow copy of this table, which it uses to determine
-        the appropriate output port. If datagrams arrive faster than the forwarding rate into the switch fabric, then they may be queued up. This often leads
+        the appropriate output port. If datagrams arrive faster than the forwarding rate into the switch fabric, then they may be queued up. This can lead
         to a phenomenon knows as head-of-the-line (HOL) blocking, which occurs when a queued datagram at the front of a queue prevents others from moving
         forward, even when they have different destination ports.
 
@@ -776,7 +776,7 @@
 
       \subsubsection{IP Addressing}
         An interface is a connection between a host or router to a physical link. Hosts often have only one interface, while routers tend to have many.
-        IP addresses are 32-bit identifiers for each device connected to the Internet.
+        IP addresses are 32-bit identifiers for each interface connected to the Internet.
 
         Subnets are a logical subdivision of an IP network, and consist of devices that can reach each other without an intervening router. In IP addressing,
         the high-order bits are dedicated to identifying the subnet, while the low-order bits are dedicated to identifying the host.
@@ -795,8 +795,8 @@
         The four main steps in the DHCP protocol are:
         \begin{enumerate}
           \item DHCP server discovery, where the DHCP host can broadcast a discover message.
-          \item The DHCP server can respond by broadcasting an offer message. This message contains the proposed IP address, the network mask
-          (i.e. network part of IP address) and address lease time (i.e. time to expiry).
+          \item The DHCP server can respond by broadcasting an offer message. This message contains the proposed IP address, the address lease time
+          (i.e. time to expiry), and may include additional info such as the network mask or a DNS server address.
           \item The host requests an IP address by sending the configuration parameters to one of the DHCP servers.
           \item The server responds with a DCHP ACK message.
         \end{enumerate}
@@ -809,8 +809,9 @@
 
         Adaption of NAT was controversial for several reasons. For one, NAT uses port numbers to address hosts, instead of their original purpose of
         addressing processes. Moreover, NAT can prevent hosts in a P2P network from directly communicating with one another. However, this latter
-        problem can often be overcome by the processes first establishing connections to some other process not behind a NAT, which can then help setup
-        a connection between the two original processes.
+        problem can often be overcome by the processes establishing connections to some other process not behind a NAT, which can then act as a relay
+        the two original processes. Alternative solutions include statically configuring NAT routers to forward certain requests to a particular host
+        and port, or dynamically altering entries in the forwarding table using the Internet Gateway Device (IGD) protocol.
 
       \subsubsection{Internet Control Message Protocol (ICMP)}
         Internet Control Message Protocol (ICMP) is used by hosts and routers to communicate network-level information, such as error messages, to
