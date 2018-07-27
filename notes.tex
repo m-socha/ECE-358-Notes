@@ -1132,4 +1132,34 @@
         with network interfaces not exchanging ACKs or NAKs. Ethernet technologies use a CSMA/CD MAC protocol with binary backoff. Modern Ethernet technologies have
         this MAC protocol and the above frame format in common, but can differ in other ways, such as through different speeds or different physical layer media.
 
+      \subsubsection{Link Layer Switches}
+        Switches are devices that connect hosts and routers together by receiving incoming link layer frames and selectively forward them to outgoing links based on their
+        MAC address. Switches are transparent to connected hosts and routers in a network. Each connected host and router has a dedicated, full duplex connection to
+        a switch. Each separate link is its own collision domain, with CSMA/CD used as a MAC protocol.
+
+        Filtering is a function of a switch that determines whether a frame should be forwarded or dropped. Forwarding involves moving frames to the appropriate outgoing
+        links. Filtering and forwarding are implemented using switch tables, which contains entries with a MAC address, switch interface leading to that MAC address, and
+        a timestamp for the entry.
+
+        Switches support plug-and-play functionality by self-learning the switch table. When a switch receives a message through one of its links, it associates that
+        link with the source MAC address. These entries exist for a period of time called the aging time, after which they are deleted. If entries exist for the
+        destination MAC address, the frame is forwarded through the associated interfaces. Otherwise, the frame is forwarded through all links expect the incoming one
+        (known as flooding).
+
+        Routers and switches are similar in that they both forward packets based on some addresses (IP addresses for routers, MAC addresses for switches). Sometimes,
+        either a router or switch can be used to connect multiple devices.
+
+        A few advantages of routers are:
+        \begin{itemize}
+          \item Hierarchical addressing allows for better traffic isolation. This can help prevent cycling, and can help find better paths between nodes because
+            the network topology is not limited to a spanning tree.
+          \item Less susceptible to broadcast storms.
+        \end{itemize}
+
+        A few advantages of switches are:
+        \begin{itemize}
+          \item Plug-and-play support.
+          \item Faster packet processing.
+        \end{itemize}
+
 \end{document}
