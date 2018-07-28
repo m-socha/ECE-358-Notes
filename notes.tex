@@ -1085,8 +1085,8 @@
         \textbf{Carrier sense multiple access with collision detection (CSMA/CD)} adds a collision detection mechanism to CSMA. Collisions are detected by comparing
           the sent and received signal strengths, which is much easier to do in wired than wireless connections. If a collision is detected, both nodes stop their
           transmission, and independently resume it after a random window of time. A common implementation for determining this random window is a binary backoff
-          algorithm, where if a frame has already experienced $n$ collisions, its waiting window is chosen from $\{0, 1, 2, ... 2^{n-1}\}$ (i.e. the average waiting
-          time increases exponentially as more collisions occur).
+          algorithm, where if a frame has already experienced $n$ collisions, its waiting window is chosen at random from $\{0, 1, 2, ... 2^{n-1}\}$ (i.e. the
+          average waiting time increases exponentially as more collisions occur).
 
           The efficiency of the CSMA/CD algorithm is $\frac{1}{1 + 5\frac{d_{prop}}{d_{trans}}}$.
 
