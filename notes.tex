@@ -619,7 +619,7 @@
           \item \textbf{Two senders and a router with finite buffers.} Packet loss or long delays due to network congestion may lead to packet retransmissions, which in turn contribute
             further to network congestion.
           \item \textbf{Multiple senders, routers with finite buffers, multihop paths.} Network congestion can cause delays or packet loss between different hosts that happen to be
-            communicating through the same infrastructure (i.e. same router). More routers involved in delivering packets opens the possibility for more wasted effort, since since
+            communicating through the same infrastructure (i.e. same router). More routers involved in delivering packets opens the possibility for more wasted effort, since
             upstream effort in delivering a packet that ends up getting dropped later is wasted.
         \end{enumerate}
 
@@ -636,9 +636,9 @@
       Since the IP layer provides no feedback regarding network congestion, TCP implements an end-to-end congestion control mechanism. TCP congestion control introduces a new variable
       known as a congestion window (cwnd), which limits the number of unACKed packets sent by a sender (should be the minimum of receive window and congestion window).
 
-      When a TCP connection is first established, the initiation cwnd is set very low (1 minimum segment size (MSS)). However, on each successful ACK, this segment size doubles. Once some
+      When a TCP connection is first established, the initial cwnd is set very low (1 minimum segment size (MSS)). However, on each successful ACK, this segment size doubles. Once some
       packet loss in indicated by a triple ACK being received for the same packet, cwnd is either halved and then grows linearly (the newer TCP Reno, which implements
-      this ``fast recovery'') or is set back to 1 (the older TCP Tahoe).
+      this ``fast recovery'') or is set back to 1 MSS (the older TCP Tahoe). If a timeout occurs, cwnd is set back to 1 MSS in both TCP Tahoe and Reno.
       In general, the cwnd increase should switch from exponential to linear once it reaches half of its previous value before timeout.
 
       \subsubsection{TCP Throughput}
