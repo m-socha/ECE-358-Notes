@@ -2,6 +2,9 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{parskip}
 
+\let\stdsection\section
+\renewcommand\section{\newpage\stdsection}
+
 \usepackage{hyperref}
 \hypersetup{
   linktoc=all
@@ -47,8 +50,6 @@
         \item Discrete-event simulation
         \item Network utilities
       \end{itemize}
-
-  \newpage
 
   \section{Introduction - Computer Networks and the Internet}
     \subsection{What is the Internet?}
@@ -220,8 +221,6 @@
           \item \textbf{Packet Sniffing} Promiscuous network connections having their data read by a third party as it passes by.
           \item \textbf{IP Address Spoofing} Packets being sent from a false source IP address, which can be used to hide one's identity or impersonate another host.
         \end{itemize}
-
-  \newpage
 
   \section{Application Layer}
     \subsection{Network Application Introduction}
@@ -437,8 +436,6 @@
       DNS queries with a spoofed source of the attack target to many authoritative servers, with the queries designed so that their response is larger than the original query (i.e. the
       attacker's DoS efforts get amplified).
 
-  \newpage
-
   \section{Transport Layer}
     The transport layer allows for logical communication between applications running on different hosts. Logical communication means that the applications involved can interact with one
     another as though they were directly connected. Transport-layer protocols are implemented in end systems, with the sender side breaking up application messages into transport-layer
@@ -653,8 +650,6 @@
         The goal of fairness is that $K$ TCP connections sharing a link of bandwidth $R$ should each have an average bandwidth of $\frac{R}{K}$. TCP's congestion control mechanism makes it
         fair, though since UDP does not implement congestion control, it does not adhere to such fairness. However, even with TCP, this fairness restriction can be circumvented by opening
         multiple parallel connections between the same hosts.
-
-  \newpage
 
   \section{Network Layer}
 
@@ -988,8 +983,6 @@
 
         Another technique for controlling flooding is to construct a spanning tree from a network. Unlike the previous two techniques, this
         completely removes transmission of redundant packets, since packets are only forwarded along the tree rather than to all neighbors.
-
-  \newpage
 
   \section{Link Layer}
     The purpose of a link layer is to transfer datagrams between physically adjacent nodes over a link. These nodes can include hosts, routers, switches,
